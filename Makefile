@@ -6,21 +6,21 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/01/28 19:08:51 by arcebria         ###   ########.fr        #
+#    Updated: 2025/03/04 21:49:25 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = src/main.c
+SRCS = src/main.c src/built_ins_commands.c src/init_env.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-INCLUDE = libft/libft.h
+INCLUDE = inc/minishell.h libft/libft.h libft/ft_printf.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address	
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 
 all: dir $(NAME)

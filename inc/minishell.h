@@ -1,23 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 21:31:15 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/03 19:51:28 by arcebria         ###   ########.fr       */
+/*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
+/*   Updated: 2025/03/05 20:50:07 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-int	ft_strcmp(const char *s1, const char *s2)
+# include <stdio.h>
+# include <string.h>
+# include "../libft/libft.h"
+# include "../libft/ft_printf.h"
+
+# define BUFFER_SIZE 1024
+# define OLD 0
+# define NEW 1
+
+typedef struct s_env
 {
-	size_t	i;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
-	i = 0;
-	while ((s1[i] || s2[i]) && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
+void	echo(char **args);
+void	cd(char **args, t_env *env_lst);
+void	pwd(void);
+t_env	*init_env(char **env);
+
+#endif
