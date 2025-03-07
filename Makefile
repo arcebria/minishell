@@ -6,13 +6,13 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/03/04 21:49:25 by arcebria         ###   ########.fr        #
+#    Updated: 2025/03/07 20:14:29 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = src/main.c src/built_ins_commands.c src/init_env.c
+SRCS = src/main.c src/init_env.c src/tokenizer.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 all: dir $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A) Makefile
-		@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) -lreadline
 		@echo "\033[31mPLVS VLTRA\033[0m"
 
 dir:

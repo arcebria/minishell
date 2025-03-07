@@ -7,8 +7,8 @@
 
 typedef struct s_list
 {
-    void            *content;
-    struct s_list   *next;
+	void            *content;
+	struct s_list   *next;
 }                   t_list;
 
 void	ft_bzero(void *s, size_t n);
@@ -59,6 +59,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_free_int_array(int **array, int size);
 size_t	ft_strcspn(const char *s, const char *reject);
 size_t	ft_strspn(const char *s, const char *accept);
-int	    ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_isspecial(int c);
+int		ft_isspace(int c);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:07:16 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/06 16:15:50 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/07 20:14:15 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_env	*init_env(char **env)
+/*t_env	*init_env(char **env)
 {
 	t_env	*head;
 	t_env	*new_node;
@@ -45,4 +45,4 @@ t_env	*init_env(char **env)
 		i++;
 	}
 	return (head);
-}
+}*/
