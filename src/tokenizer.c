@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/07 21:30:33 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/08 22:05:56 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_token(t_token **token, char *value, int type, int *i)
 	new_node->next = NULL;
 	new_node->type = type;
 	new_node->value = ft_strdup(value);
-	printf("%s\n", new_node->value);
+	ft_printf("%s\n", new_node->value);
 	if (!*token)
 		*token = new_node;
 	else
@@ -40,9 +40,11 @@ void	add_token(t_token **token, char *value, int type, int *i)
 		last_node = find_last(*token);
 		last_node->next = new_node;
 	}
+	if (new_node->type == PIPE || new_node->type == AMPERSAND || new_node->type == REDIR_IN || new_node->type == REDIR_OUT || new_node->type == APPEND || new_node->type == HEREDOC)
+		(*i)++;
 	if (new_node->type == APPEND || new_node->type == HEREDOC)
 		(*i)++;
-	(*i)++;
+
 }
 
 void	extract_quoted_token(t_token **token, char *input, int *i)
@@ -59,8 +61,9 @@ void	extract_quoted_token(t_token **token, char *input, int *i)
 		len++;
 	if (!input[start + len])
 		return ; //implementar una salida que devuelva un mensaje de error
-	word = ft_substr(input, start, len - 1);
+	word = ft_substr(input, start, len);
 	add_token(token, word, WORD, i);
+	free(word);
 	*i = start + len + 1;
 }
 
@@ -74,10 +77,12 @@ void	extract_word(t_token **token, char *input, int *i)
 	while (input[*i] && !ft_isspace(input[*i]) && !ft_isspecial(input[*i]))
 		(*i)++;
 	len = *i - start;
+	//printf("extract_word: start = %d, len = %d\n", start, len);
 	if (len > 0)
 	{
 		word = ft_substr(input, start, len);
 		add_token(token, word, WORD, i);
+		free (word);
 	}
 }
 
@@ -88,7 +93,7 @@ t_token	*tokenizer(char *input)
 
 	token = NULL;
 	i = 0;
-	while ((input[i]))
+	while (input[i])
 	{
 		if (input[i] == ' ' || input[i] == '\t')
 			i++;

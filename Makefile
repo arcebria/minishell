@@ -6,13 +6,13 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/03/07 20:14:29 by arcebria         ###   ########.fr        #
+#    Updated: 2025/03/08 20:29:19 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = src/main.c src/init_env.c src/tokenizer.c
+SRCS = src/main.c src/init_env.c src/tokenizer.c src//free_stuff.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
@@ -20,7 +20,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = inc/minishell.h libft/libft.h libft/ft_printf.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 
 all: dir $(NAME)

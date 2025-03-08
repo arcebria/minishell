@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/07 21:25:04 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/08 22:05:06 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	minishell_loop()
 {
-	char	*input;
+	char		*input;
+	t_token		*token;
+	t_command	*command;
 
+	(void)command;
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -23,9 +26,17 @@ void	minishell_loop()
 			break ;
 		if (input[0])
 			add_history(input);
-		tokenizer(input);
+		token = tokenizer(input);
+
 		if (ft_strcmp(input, "exit") == 0)
+		{
+			free_tokens(&token);
+			free(input);
 			break ;
+		}
+		//if (token)
+		free_tokens(&token);
+		free(input);
 	}
 	rl_clear_history();
 }
