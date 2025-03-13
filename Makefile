@@ -6,13 +6,13 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/03/08 20:29:19 by arcebria         ###   ########.fr        #
+#    Updated: 2025/03/12 14:02:52 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = src/main.c src/init_env.c src/tokenizer.c src//free_stuff.c
+SRCS = src/main.c src/init_env.c src/tokenizer.c src/free_stuff.c src/parser.c src/syntax_analize.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft

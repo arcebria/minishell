@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:36:51 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/08 17:46:44 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:29:14 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,44 @@ void	free_tokens(t_token **token)
 		current = tmp;
 	}
 	*token = NULL;
+}
+
+void	free_redir(t_redirection **redir)
+{
+	t_redirection	*current;
+	t_redirection	*tmp;
+
+	current = *redir;
+	if (!redir || !*redir)
+		return ;
+	while (current)
+	{
+		tmp = current->next;
+		free(current->file);
+		free(current);
+		current = tmp;
+	}
+	*redir = NULL;
+}
+
+void	free_commands(t_command	**cmds)
+{
+	t_command	*current;
+	t_command	*tmp;
+
+	current = *cmds;
+	if (!cmds || !*cmds)
+		return ;
+	while (current)
+	{
+		tmp = current->next;
+		free(current->cmd);
+		if (current->args)
+			ft_free_array(current->args);
+		if (current->redirs)
+			free_redir(&current->redirs);
+		free (current);
+		current = tmp;
+	}
+	*cmds = NULL;
 }

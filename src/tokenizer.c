@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/08 22:05:56 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:29:12 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	add_token(t_token **token, char *value, int type, int *i)
 	new_node->next = NULL;
 	new_node->type = type;
 	new_node->value = ft_strdup(value);
-	ft_printf("%s\n", new_node->value);
 	if (!*token)
 		*token = new_node;
 	else
@@ -40,14 +39,16 @@ void	add_token(t_token **token, char *value, int type, int *i)
 		last_node = find_last(*token);
 		last_node->next = new_node;
 	}
-	if (new_node->type == PIPE || new_node->type == AMPERSAND || new_node->type == REDIR_IN || new_node->type == REDIR_OUT || new_node->type == APPEND || new_node->type == HEREDOC)
+	if (new_node->type == PIPE || new_node->type == AMPERSAND
+		|| new_node->type == REDIR_IN || new_node->type == REDIR_OUT
+		|| new_node->type == APPEND || new_node->type == HEREDOC)
 		(*i)++;
 	if (new_node->type == APPEND || new_node->type == HEREDOC)
 		(*i)++;
 
 }
 
-void	extract_quoted_token(t_token **token, char *input, int *i)
+int	extract_quoted_token(t_token **token, char *input, int *i)
 {
 	int		quote;
 	int		start;
@@ -60,11 +61,16 @@ void	extract_quoted_token(t_token **token, char *input, int *i)
 	while (input[start + len] != quote && input[start + len])
 		len++;
 	if (!input[start + len])
-		return ; //implementar una salida que devuelva un mensaje de error
+	{
+		ft_putstr_fd("Open quotation marks\n", 2);
+		*i = start + len;
+		return (1);
+	}
 	word = ft_substr(input, start, len);
 	add_token(token, word, WORD, i);
 	free(word);
 	*i = start + len + 1;
+	return (0);
 }
 
 void	extract_word(t_token **token, char *input, int *i)
@@ -77,7 +83,6 @@ void	extract_word(t_token **token, char *input, int *i)
 	while (input[*i] && !ft_isspace(input[*i]) && !ft_isspecial(input[*i]))
 		(*i)++;
 	len = *i - start;
-	//printf("extract_word: start = %d, len = %d\n", start, len);
 	if (len > 0)
 	{
 		word = ft_substr(input, start, len);
@@ -113,10 +118,11 @@ t_token	*tokenizer(char *input)
 			else
 				add_token(&token, ">", REDIR_OUT, &i);
 		}
-		else if (input[i] == '&')
-			add_token(&token, "&", AMPERSAND, &i);
 		else if (input[i] == '\"' || input[i] == '\'')
-			extract_quoted_token(&token, input, &i);
+		{
+			if (extract_quoted_token(&token, input, &i))
+				return (free_tokens(&token), NULL);
+		}
 		else
 			extract_word(&token, input, &i);
 	}
