@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/13 21:29:15 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:27:58 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,28 @@ typedef struct s_command
 {
 	char				*cmd;
 	char				**args;
+	char				*path;
 	t_redirection		*redirs;
 	struct s_command	*next;
 }	t_command;
 
-/*typedef struct s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;*/
+}	t_env;
 
 t_token		*tokenizer(char *input);
 void		free_tokens(t_token **token);
 t_command	*parse_pipeline(t_token	*token);
 int			syntax_analize(t_token *tokens);
 void		free_commands(t_command	**cmds);
-void	free_redir(t_redirection **redir);
+void		free_redir(t_redirection **redir);
+void		get_cmd(t_command *cmd, t_env *env);
 //void	echo(char **args);
 //void	cd(char **args, t_env *env_lst);
 //void	pwd(void);
-//t_env	*init_env(char **env);
+t_env	*init_env(char **env);
 
 #endif

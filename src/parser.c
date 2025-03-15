@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:57:57 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/15 21:06:49 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:46:56 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_command	*init_command(void)
 		return (NULL);
 	cmd->args = NULL;
 	cmd->cmd = NULL;
+	cmd->path = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	return (cmd);
