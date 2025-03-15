@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/13 21:29:13 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:07:30 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	minishell_loop()
 		token = tokenizer(input);
 		if (syntax_analize(token) == 0)
 			command = parse_pipeline(token);
-
 		if (ft_strcmp(input, "exit") == 0)
 		{
 			free_tokens(&token);

@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:57:57 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/13 21:29:10 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:06:49 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ t_command	*parse_simple_cmd(char **tokens, int *i)
 		return (NULL);
 	cmd = init_command();
 	cmd->cmd = ft_strdup(tokens[*i]);
-	(*i)++;
 	while (tokens[*i] && ft_strcmp(tokens[*i], "|"))
 	{
 		if (!ft_strcmp(tokens[*i], "<") || !ft_strcmp(tokens[*i], "<<")
