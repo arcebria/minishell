@@ -62,5 +62,7 @@ size_t	ft_strspn(const char *s, const char *accept);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_isspecial(int c);
 int		ft_isspace(int c);
+char    *ft_strcpy(char *dest, char *src);
+char    *ft_strcat(char *dest, char *src);
 
 #endif

@@ -48,9 +48,9 @@ char	**env_to_array(t_env *env)
 			return (NULL);
 		/*no funciona por una posible mala implementacion de estas funciones
 		mirar de implementar stcpy y strcat*/
-		ft_strlcpy(env_var, tmp->key, ft_strlen(tmp->key));
-		ft_strlcat(env_var, "=", 1);
-		ft_strlcat(env_var, tmp->value, ft_strlen(tmp->value));
+		ft_strcpy(env_var, tmp->key);
+		ft_strcat(env_var, "=");
+		ft_strcat(env_var, tmp->value);
 		array[i++] = env_var;
 		tmp = tmp->next;
 	}

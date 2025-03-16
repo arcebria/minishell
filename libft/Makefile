@@ -45,6 +45,8 @@ SRCS =  ft_isascii.c \
 	ft_strcmp.c \
 	ft_isspecial.c \
 	ft_isspace.c \
+	ft_strcpy.c \
+	ft_strcat.c \
 	ft_printf.c type_cs.c type_num.c type_xXp.c
 
 
