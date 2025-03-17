@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:07:16 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/15 21:45:59 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:21:53 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_env	*init_env(char **env)
 		new_node->next = NULL;
 		if (!head)
 			head = new_node;
-
 		else
 		{
 			last_node->next = new_node;

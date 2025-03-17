@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/15 22:27:14 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:57:36 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	minishell_loop(t_env *env)
 		token = tokenizer(input);
 		if (syntax_analize(token) == 0)
 			command = parse_pipeline(token);
-		get_cmd(command, env);
+		if (exec_cmd(command, env))
+			printf ("caca\n");
 		if (ft_strcmp(input, "exit") == 0)
 		{
 			free_tokens(&token);

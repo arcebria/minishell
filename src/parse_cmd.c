@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:09:03 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/15 22:37:03 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:54:56 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ char	**env_to_array(t_env *env)
 	while (tmp)
 	{
 		env_var = malloc(ft_strlen(tmp->key) + ft_strlen(tmp->value) + 2);
-		if(!env_var)
+		if (!env_var)
 			return (NULL);
-		/*no funciona por una posible mala implementacion de estas funciones
-		mirar de implementar stcpy y strcat*/
 		ft_strcpy(env_var, tmp->key);
 		ft_strcat(env_var, "=");
 		ft_strcat(env_var, tmp->value);
@@ -58,17 +56,50 @@ char	**env_to_array(t_env *env)
 	return (array);
 }
 
+int	check_acces(char **dir, char *full_path)
+{
+	if (access(full_path, F_OK) == 0)
+	{
+		ft_free_array(dir);
+		return (0);
+	}
+	free (full_path);
+	return (1);
+}
+
+char	*get_path(char **env, t_command *cmd)
+{
+	int		i;
+	int		j;
+	char	**dir;
+	char	*pre_path;
+	char	*full_path;
+
+	i = 0;
+	while (env[i] && ft_strncmp(env[i], "PATH=", 5))
+		i++;
+	if (!env[i])
+		return (NULL);
+	dir = ft_split(env[i] + 5, ':');
+	j = 0;
+	while (dir[j])
+	{
+		pre_path = ft_strjoin(dir[j], "/");
+		full_path = ft_strjoin(pre_path, cmd->cmd);
+		free(pre_path);
+		if (check_acces(dir, full_path) == 0)
+			return (full_path);
+		j++;
+	}
+	ft_free_array(dir);
+	return (NULL);
+}
+
 void	get_cmd(t_command *cmd, t_env *env)
 {
-	char	**env_array;
-
-	(void)cmd;
-	env_array = env_to_array(env);
-	/*if (ft_strchr(cmd->cmd, '/'))
+	cmd->env_array = env_to_array(env);
+	if (ft_strchr(cmd->cmd, '/'))
 		cmd->path = ft_strdup(cmd->cmd);
 	else
-		cmd->path = get_path()*/
-	int i = 0;
-	while (env_array[i])
-		printf("%s\n", env_array[i++]);
+		cmd->path = get_path(cmd->env_array, cmd);
 }

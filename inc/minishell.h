@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/15 22:27:58 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:15:13 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdio.h>
 # include <string.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
@@ -52,6 +54,7 @@ typedef struct s_command
 {
 	char				*cmd;
 	char				**args;
+	char				**env_array;
 	char				*path;
 	t_redirection		*redirs;
 	struct s_command	*next;
@@ -74,6 +77,7 @@ void		get_cmd(t_command *cmd, t_env *env);
 //void	echo(char **args);
 //void	cd(char **args, t_env *env_lst);
 //void	pwd(void);
-t_env	*init_env(char **env);
+t_env		*init_env(char **env);
+int			exec_cmd(t_command *cmd, t_env *env);
 
 #endif
