@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 16:57:36 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:24:42 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	minishell_loop(t_env *env)
 	char		*input;
 	t_token		*token;
 	t_command	*command;
+	int	exit_status;
 
 	command = NULL;
 	while (1)
@@ -29,16 +30,19 @@ void	minishell_loop(t_env *env)
 		token = tokenizer(input);
 		if (syntax_analize(token) == 0)
 			command = parse_pipeline(token);
-		if (exec_cmd(command, env))
-			printf ("caca\n");
+		exit_status = exec_cmd(command, env);
+		printf("%d\n", exit_status);
 		if (ft_strcmp(input, "exit") == 0)
 		{
 			free_tokens(&token);
+			free_commands(&command);
+			free_env(&env);
 			free(input);
 			break ;
 		}
 		free_tokens(&token);
 		free_commands(&command);
+		free_env(&env);
 		free(input);
 	}
 	rl_clear_history();

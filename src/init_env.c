@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:07:16 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 15:21:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:57:48 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	set_essential(t_env **env)
 			add_essential(env, "PWD", dir);
 		tmp = tmp->next;
 	}
+	free (dir);
 }
 
 t_env	*init_env(char **env)

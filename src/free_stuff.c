@@ -6,11 +6,30 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:36:51 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 15:55:23 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:16:10 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	free_env(t_env **env)
+{
+	t_env	*current;
+	t_env	*tmp;
+
+	current = *env;
+	if (!env || !*env)
+		return ;
+	while (current)
+	{
+		tmp = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = tmp;
+	}
+	*env = NULL;
+}
 
 void	free_tokens(t_token **token)
 {
@@ -59,16 +78,16 @@ void	free_commands(t_command	**cmds)
 	while (current)
 	{
 		tmp = current->next;
-		free(current->cmd);
+		//free(current->cmd);
 		if (current->args)
 			ft_free_array(current->args);
 		if (current->env_array)
 			ft_free_array(current->env_array);
 		if (current->path)
-			free (current->path);
+			free(current->path);
 		if (current->redirs)
 			free_redir(&current->redirs);
-		free (current);
+		free(current);
 		current = tmp;
 	}
 	*cmds = NULL;

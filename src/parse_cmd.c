@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:09:03 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 15:54:56 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:03:37 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*get_path(char **env, t_command *cmd)
 	while (dir[j])
 	{
 		pre_path = ft_strjoin(dir[j], "/");
-		full_path = ft_strjoin(pre_path, cmd->cmd);
+		full_path = ft_strjoin(pre_path, cmd->args[0]);
 		free(pre_path);
 		if (check_acces(dir, full_path) == 0)
 			return (full_path);
@@ -98,8 +98,9 @@ char	*get_path(char **env, t_command *cmd)
 void	get_cmd(t_command *cmd, t_env *env)
 {
 	cmd->env_array = env_to_array(env);
-	if (ft_strchr(cmd->cmd, '/'))
-		cmd->path = ft_strdup(cmd->cmd);
+	if (ft_strchr(cmd->args[0], '/'))
+		cmd->path = ft_strdup(cmd->args[0]);
 	else
 		cmd->path = get_path(cmd->env_array, cmd);
+	ft_free_array(cmd->env_array);
 }

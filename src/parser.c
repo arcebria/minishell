@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:57:57 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 15:54:34 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:12:28 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_command	*init_command(void)
 		return (NULL);
 	cmd->args = NULL;
 	cmd->env_array = NULL;
-	cmd->cmd = NULL;
+	//cmd->cmd = NULL;
 	cmd->path = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
@@ -122,7 +122,7 @@ t_command	*parse_simple_cmd(char **tokens, int *i)
 	if (!ft_strcmp(tokens[0], "|"))
 		return (NULL);
 	cmd = init_command();
-	cmd->cmd = ft_strdup(tokens[*i]);
+	//cmd->cmd = ft_strdup(tokens[*i]);
 	while (tokens[*i] && ft_strcmp(tokens[*i], "|"))
 	{
 		if (!ft_strcmp(tokens[*i], "<") || !ft_strcmp(tokens[*i], "<<")

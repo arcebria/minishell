@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 16:15:13 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:02:18 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_redirection
 
 typedef struct s_command
 {
-	char				*cmd;
+	//char				*cmd;
 	char				**args;
 	char				**env_array;
 	char				*path;
@@ -73,6 +73,7 @@ t_command	*parse_pipeline(t_token	*token);
 int			syntax_analize(t_token *tokens);
 void		free_commands(t_command	**cmds);
 void		free_redir(t_redirection **redir);
+void		free_env(t_env **env);
 void		get_cmd(t_command *cmd, t_env *env);
 //void	echo(char **args);
 //void	cd(char **args, t_env *env_lst);

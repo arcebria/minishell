@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 17:13:06 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:53:01 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	exec_cmd(t_command *cmd, t_env *env)
 {
 	pid_t	pid;
 
+	if (!cmd)
+		return (0);
 	get_cmd(cmd, env);
 	pid = fork();
 	if (pid == -1)
