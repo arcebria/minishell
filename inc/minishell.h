@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 21:02:18 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:42:53 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -47,12 +48,13 @@ typedef struct s_redirection
 {
 	int						type;
 	char					*file;
+	int						fd_in;
+	int						fd_out;
 	struct s_redirection	*next;
 }	t_redirection;
 
 typedef struct s_command
 {
-	//char				*cmd;
 	char				**args;
 	char				**env_array;
 	char				*path;
@@ -80,5 +82,6 @@ void		get_cmd(t_command *cmd, t_env *env);
 //void	pwd(void);
 t_env		*init_env(char **env);
 int			exec_cmd(t_command *cmd, t_env *env);
+void	init_redirections(t_command *cmd);
 
 #endif

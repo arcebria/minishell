@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 20:53:01 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:46:51 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exe_child(t_command *cmd)
 {
 	execve(cmd->path, cmd->args, cmd->env_array);
-	perror("execve");
+	perror("command");
 	exit (127);
 }
 

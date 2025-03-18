@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:09:03 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 21:03:37 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:42:11 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,11 @@ char	*get_path(char **env, t_command *cmd)
 
 void	get_cmd(t_command *cmd, t_env *env)
 {
+	if (!cmd->args)
+		return ;
 	cmd->env_array = env_to_array(env);
 	if (ft_strchr(cmd->args[0], '/'))
 		cmd->path = ft_strdup(cmd->args[0]);
 	else
 		cmd->path = get_path(cmd->env_array, cmd);
-	ft_free_array(cmd->env_array);
 }
