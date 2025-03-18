@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:47:30 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/13 21:29:14 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:30:33 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	check_consecutives(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->next && ft_isspecial(tmp->value[0])
-			&& ft_isspecial(tmp->next->value[0]))
+		//esta linea esta cambiada en las otras ramas de parseo, asi en principio esta bien. EN las otras | < da error, pero no necesariamente es asi
+		if (tmp->next && tmp->type == PIPE && tmp->next->type == PIPE)
 		{
 			ft_putstr_fd(S_E_PIPE, 2);
 			return (1);
