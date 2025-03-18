@@ -6,45 +6,47 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:18:35 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/18 17:44:45 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:43:57 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	open_infile(t_command *cmd)
+void	open_infile(t_redirection *redir)
 {
-	cmd->redirs->fd_in = open(cmd->redirs->file, O_RDONLY, 664);
-	if (cmd->redirs->fd_in == -1)
+	redir->fd_in = open(redir->file, O_RDONLY, 664);
+	if (redir->fd_in == -1)
 		strerror(errno);
 	printf("infile abierto correctamente\n");
 }
 
-void	open_outfile(t_command *cmd, int append)
+void	open_outfile(t_redirection *redir, int append)
 {
 	if (append == 0)
-		cmd->redirs->fd_out = open(cmd->redirs->file, O_CREAT
+		redir->fd_out = open(redir->file, O_CREAT
 				| O_WRONLY | O_TRUNC, 0664);
 	else if (append == 1)
-		cmd->redirs->fd_out = open(cmd->redirs->file, O_CREAT
+		redir->fd_out = open(redir->file, O_CREAT
 				| O_WRONLY | O_APPEND, 0664);
-	if (cmd->redirs->fd_out == -1)
+	if (redir->fd_out == -1)
 		strerror(errno);
 	printf("outfile abierto correctamente\n");
 }
 
 void	init_redirections(t_command *cmd)
 {
-	t_command	*tmp;
+	t_redirection	*tmp;
 
-	tmp = cmd;
+	if (!cmd->redirs)
+		return ;
+	tmp = cmd->redirs;
 	while (tmp)
 	{
-		if (tmp->redirs->type == REDIR_IN)
+		if (tmp->type == REDIR_IN)
 			open_infile(tmp);
-		else if (tmp->redirs->type == REDIR_OUT)
+		else if (tmp->type == REDIR_OUT)
 			open_outfile(tmp, 0);
-		else if (tmp->redirs->type == APPEND)
+		else if (tmp->type == APPEND)
 			open_outfile(tmp, 1);
 		tmp = tmp->next;
 	}
