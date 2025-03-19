@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/18 18:46:13 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:58:27 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ typedef enum s_token_type
 	APPEND, // >>
 	AMPERSAND, // &
 }	t_token_type;
+
+typedef struct s_shell
+{
+	int		n_pipes;
+	int		n_cmds;
+	int		*pipes;
+	pid_t	*pids;
+	int		child;
+}	t_shell;
 
 typedef struct s_token
 {
@@ -81,7 +90,8 @@ void		get_cmd(t_command *cmd, t_env *env);
 //void	cd(char **args, t_env *env_lst);
 //void	pwd(void);
 t_env		*init_env(char **env);
-int			exec_cmd(t_command *cmd, t_env *env);
-void	init_redirections(t_command *cmd);
+int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env);
+t_shell		*setup_exec(t_command *cmd);
+int			cmd_size(t_command *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 21:07:16 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 20:57:48 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:11:39 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_env	*init_env(char **env)
 	t_env	*head;
 	t_env	*new_node;
 	t_env	*last_node;
-	size_t		equal_pos;
+	size_t	equal_pos;
 	int		i;
 
 	head = NULL;

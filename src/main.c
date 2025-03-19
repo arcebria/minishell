@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/18 21:21:36 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:48:31 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	minishell_loop(t_env *env)
 	char		*input;
 	t_token		*token;
 	t_command	*command;
+	t_shell		*shell;
 	int	exit_status;
 
 	command = NULL;
@@ -31,10 +32,9 @@ void	minishell_loop(t_env *env)
 		if (syntax_analize(token) == 0)
 		{
 			command = parse_pipeline(token);
-			init_redirections(command);
-			exit_status = exec_cmd(command, env);
+			shell = setup_exec(command);
+			exit_status = exec_cmd(command, shell, env);
 		}
-		//printf("%d\n", exit_status);
 		(void)exit_status;
 		if (ft_strcmp(input, "exit") == 0)
 		{

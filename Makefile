@@ -6,7 +6,7 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/03/18 17:42:47 by arcebria         ###   ########.fr        #
+#    Updated: 2025/03/19 20:48:21 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = inc/minishell.h libft/libft.h libft/ft_printf.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 
 all: dir $(NAME)
