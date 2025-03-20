@@ -87,85 +87,45 @@ int	redir_one_cmd(t_redirection *redir)
 
 int	redir_pipes(t_redirection *redir, t_shell *shell)
 {
-	t_redirection *tmp;
-
-	tmp = redir;
 	if (shell->child == 0)
 	{
-		while (tmp)
+		if (!redir)
 		{
-			if (tmp->type == REDIR_IN)
-			{
-				if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-					return (1);
-				close(tmp->fd_in);
-			}
-			if (tmp->type == REDIR_OUT || tmp->type == APPEND)
-			{
-				if (dup2(tmp->fd_out, STDOUT_FILENO) == -1)
-					return (1);
-				close(tmp->fd_out);
-			}
-			else
-			{
-				if (dup2(shell->pipes[1], STDOUT_FILENO) == -1)
-					return (1);
-			}
-			tmp = tmp->next;
+			if (dup2(shell->pipes[1], STDOUT_FILENO) == -1)
+				return (1);
+		}
+		else
+		{
+			if (redir_first_child(redir, shell))
+				return (1);
 		}
 	}
 	else if (shell->child == shell->n_pipes)
 	{
-		while (tmp)
+		if (!redir)
 		{
-			if (tmp->type == REDIR_IN)
-			{
-				if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-					return (1);
-				close(tmp->fd_in);
-			}
-			else
-			{
-				if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == -1)
-					return (1);
-			}
-			if (tmp->type == REDIR_OUT)
-			{
-				printf("%d\n", tmp->fd_out);
-				if (dup2(tmp->fd_out, STDOUT_FILENO) == -1)
-					return (1);
-				close (tmp->fd_out);
-			}
-			tmp = tmp->next;
+			if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == - 1)
+				return (1);
+		}
+		else
+		{
+			if (redir_last_child(redir, shell))
+				return (1);
 		}
 	}
 	else
 	{
-		while (tmp)
+		if (!redir)
 		{
-			if (tmp->type == REDIR_IN)
-			{
-				if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-					return (1);
-				close (tmp->fd_in);
-			}
-			else
-			{
-				if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == -1)
-					return (1);
-			}
-			if (tmp->type == REDIR_OUT)
-			{
-				if (dup2(tmp->fd_out, STDOUT_FILENO) == -1)
-					return (1);
-				close (tmp->fd_out);
-			}
-			else
-			{
-				if (dup2(shell->pipes[2 * shell->child + 1], STDOUT_FILENO) == -1)
-					return (1);
-			}
-			tmp = tmp->next;
+			if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == -1)
+				return (1);
+			if (dup2(shell->pipes[2 * shell->child + 1], STDOUT_FILENO) == -1)
+				return (1);	
+		}
+		else
+		{
+			if (redir_n_child(redir, shell))
+				return (1);
 		}
 	}
 	return (0);
@@ -188,8 +148,8 @@ int	dup_files(t_redirection *redir, t_shell *shell)
 
 void	exe_child(t_command *cmd, t_shell *shell)
 {
-	if (cmd->redirs)
-		dup_files(cmd->redirs, shell);
+	//if (cmd->redirs)
+	dup_files(cmd->redirs, shell);
 	close_pipes(shell);
 	execve(cmd->path, cmd->args, cmd->env_array);
 	perror("command");
@@ -232,7 +192,6 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 	if (!cmd || !cmd->args)
 		return (127);
 	c_tmp = cmd;
-	//shell->child = 0;
 	while (shell->child < shell->n_cmds)
 	{
 		get_cmd(c_tmp, env);
@@ -241,8 +200,8 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 			return (perror("fork"), 1);
 		else if (shell->pids[shell->child] == 0)
 			exe_child(c_tmp, shell);
-		//free(cmd->path);
-		//ft_free_array(cmd->args);
+		//free(c_tmp->path);
+		//ft_free_array(c_tmp->args);
 		shell->child++;
 		c_tmp = c_tmp->next;
 	}
