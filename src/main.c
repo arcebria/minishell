@@ -41,11 +41,13 @@ void	minishell_loop(t_env *env)
 			free_tokens(&token);
 			free_commands(&command);
 			free_env(&env);
+			free(shell);
 			free(input);
 			break ;
 		}
 		free_tokens(&token);
 		free_commands(&command);
+		free(shell);
 		free(input);
 	}
 	free_env(&env);

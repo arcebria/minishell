@@ -156,6 +156,27 @@ void	exe_child(t_command *cmd, t_shell *shell)
 	exit (127);
 }
 
+void 	clean_fds(t_command *cmd)
+{
+	t_command		*c_tmp;
+	t_redirection	*r_tmp;
+
+	c_tmp = cmd;
+	while (c_tmp)
+	{
+		r_tmp = c_tmp->redirs;
+		while (r_tmp)
+		{
+			if (r_tmp->type == REDIR_IN)
+				close(r_tmp->fd_in);
+			if (r_tmp->type == REDIR_OUT || r_tmp->type == APPEND)
+				close(r_tmp->fd_out);
+			r_tmp = r_tmp->next;
+		}
+		c_tmp = c_tmp->next;
+	}
+}
+
 int	exe_parent(t_command *cmd, t_shell *shell)
 {
 	int		exit_status;
@@ -165,6 +186,7 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	exit_status = 1;
 	shell->child--;
 	close_fds(cmd, shell);
+	clean_fds(cmd);
 	/*if (cmd->redirs)
 	{
 		close(cmd->redirs->fd_in);

@@ -44,12 +44,13 @@ t_shell	*init_shell(t_command *cmd)
 	return (shell);
 }
 
+//problema con el manejo de error si el file de entrada no existe
+
 void	open_infile(t_redirection *redir)
 {
-	redir->fd_in = open(redir->file, O_RDONLY, 664);
+	redir->fd_in = open(redir->file, O_RDONLY, 644);
 	if (redir->fd_in == -1)
-		strerror(errno);
-
+		err_out("minishell: ", redir->file, ": " , strerror(errno), 1);
 }
 
 void	open_outfile(t_redirection *redir, int append)

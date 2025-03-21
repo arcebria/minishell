@@ -12,7 +12,7 @@
 
 NAME = minishell
 
-SRCS = src/main.c src/init_env.c src/tokenizer.c src/free_stuff.c src/parser.c src/syntax_analize.c src/parse_cmd.c src/exec_cmd.c src/redirections.c src/open_files.c
+SRCS = src/main.c src/init_env.c src/tokenizer.c src/free_stuff.c src/parser.c src/syntax_analize.c src/parse_cmd.c src/exec_cmd.c src/redirections.c src/open_files.c src/handler_errors.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
