@@ -35,7 +35,8 @@ void	minishell_loop(t_env *env)
 			shell = setup_exec(command);
 			exit_status = exec_cmd(command, shell, env);
 		}
-		(void)exit_status;
+		//(void)exit_status;
+		printf("%d\n", exit_status);
 		if (ft_strcmp(input, "exit") == 0)
 		{
 			free_tokens(&token);

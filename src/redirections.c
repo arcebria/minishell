@@ -13,7 +13,7 @@ int redir_first_child(t_redirection *redir, t_shell *shell)
 		if (tmp->type == REDIR_IN)
 		{
 			if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-				exit(1); //implementar dentro de las redirecciones de los hijos que si hay algun dup que falla salga, hacer una funcion para gestionar todos los exits
+				return (1);
 			close(tmp->fd_in);
 		}
 		if (tmp->type == REDIR_OUT || tmp->type == APPEND)

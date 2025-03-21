@@ -148,12 +148,12 @@ int	dup_files(t_redirection *redir, t_shell *shell)
 
 void	exe_child(t_command *cmd, t_shell *shell)
 {
-	//if (cmd->redirs)
-	dup_files(cmd->redirs, shell);
+	if (dup_files(cmd->redirs, shell) == 1)
+		exit(1);
 	close_pipes(shell);
 	execve(cmd->path, cmd->args, cmd->env_array);
 	perror("command");
-	exit (127);
+	exit(127);
 }
 
 void 	clean_fds(t_command *cmd)
@@ -187,11 +187,6 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	shell->child--;
 	close_fds(cmd, shell);
 	clean_fds(cmd);
-	/*if (cmd->redirs)
-	{
-		close(cmd->redirs->fd_in);
-		close(cmd->redirs->fd_out);
-	}*/
 	while (shell->child >= 0)
 	{
 		wpid = waitpid(shell->pids[shell->child], &status, 0);
@@ -212,7 +207,7 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 	t_command	*c_tmp;
 
 	if (!cmd || !cmd->args)
-		return (127);
+		return (1);
 	c_tmp = cmd;
 	while (shell->child < shell->n_cmds)
 	{
@@ -222,8 +217,6 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 			return (perror("fork"), 1);
 		else if (shell->pids[shell->child] == 0)
 			exe_child(c_tmp, shell);
-		//free(c_tmp->path);
-		//ft_free_array(c_tmp->args);
 		shell->child++;
 		c_tmp = c_tmp->next;
 	}
