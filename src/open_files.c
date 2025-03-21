@@ -50,7 +50,7 @@ void	open_infile(t_redirection *redir)
 {
 	redir->fd_in = open(redir->file, O_RDONLY, 644);
 	if (redir->fd_in == -1)
-		err_out("minishell: ", redir->file, ": " , strerror(errno), 1);
+		err_out("minishell: ", redir->file, ": " , strerror(errno));
 }
 
 void	open_outfile(t_redirection *redir, int append)

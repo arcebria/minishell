@@ -96,6 +96,6 @@ int			cmd_size(t_command *cmd);
 int			redir_first_child(t_redirection *redir, t_shell *shell);
 int			redir_last_child(t_redirection *redir, t_shell *shell);
 int			redir_n_child(t_redirection *redir, t_shell *shell);
-int	err_out(char *str1, char *str2, char *str3, char *str4, int err_no);
+void		err_out(char *str1, char *str2, char *str3, char *str4);
 
 #endif

@@ -152,7 +152,7 @@ void	exe_child(t_command *cmd, t_shell *shell)
 		exit(1);
 	close_pipes(shell);
 	execve(cmd->path, cmd->args, cmd->env_array);
-	perror("command");
+	err_out("minishell: ", "command not found: ", "", cmd->args[0]);
 	exit(127);
 }
 

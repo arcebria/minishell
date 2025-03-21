@@ -20,6 +20,7 @@ void	minishell_loop(t_env *env)
 	t_shell		*shell;
 	int	exit_status;
 
+		exit_status = 1;
 	command = NULL;
 	while (1)
 	{
@@ -35,6 +36,12 @@ void	minishell_loop(t_env *env)
 			shell = setup_exec(command);
 			exit_status = exec_cmd(command, shell, env);
 		}
+		else
+		{
+			free(input);
+			free_tokens(&token);
+			continue ;
+		}
 		//(void)exit_status;
 		printf("%d\n", exit_status);
 		if (ft_strcmp(input, "exit") == 0)
@@ -48,6 +55,7 @@ void	minishell_loop(t_env *env)
 		}
 		free_tokens(&token);
 		free_commands(&command);
+		//if (shell)
 		free(shell);
 		free(input);
 	}

@@ -12,32 +12,36 @@
 
 NAME = minishell
 
-SRCS = src/main.c src/init_env.c src/tokenizer.c src/free_stuff.c src/parser.c src/syntax_analize.c src/parse_cmd.c src/exec_cmd.c src/redirections.c src/open_files.c src/handler_errors.c
-OBJS = $(SRCS:.c=.o)
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+
+SRC_DIR = src
+OBJ_DIR = obj
+
+SRC = $(wildcard $(SRC_DIR)/*.c) 
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = inc/minishell.h libft/libft.h libft/ft_printf.h
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
-
 
 all: dir $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_A) Makefile
-		@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) -lreadline
+$(NAME): $(OBJ) $(LIBFT_A) Makefile
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT_A) -o $(NAME) -lreadline
 		@echo "\033[31mPLVS VLTRA\033[0m"
 
 dir:
 	@make -C $(LIBFT_DIR) --silent
 
-%.o: %.c $(INCLUDE)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE)
+	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@make -C $(LIBFT_DIR) clean --silent
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@echo "\033[31mNON PLVS VLTRA\033[0m"
 
 fclean: clean
