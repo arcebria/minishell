@@ -55,7 +55,6 @@ void	minishell_loop(t_env *env)
 		}
 		free_tokens(&token);
 		free_commands(&command);
-		//if (shell)
 		free(shell);
 		free(input);
 	}

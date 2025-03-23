@@ -83,7 +83,7 @@ void		free_tokens(t_token **token);
 t_command	*parse_pipeline(t_token	*token);
 int			syntax_analize(t_token *tokens);
 void		free_commands(t_command	**cmds);
-void		free_redir(t_redirection **redir);
+void		free_tokens(t_token **token);
 void		free_env(t_env **env);
 void		get_cmd(t_command *cmd, t_env *env);
 //void	echo(char **args);
