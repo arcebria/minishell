@@ -59,6 +59,8 @@ typedef struct s_redirection
 	char					*file;
 	int						fd_in;
 	int						fd_out;
+	int						flag_in;
+	int						flag_out;
 	struct s_redirection	*next;
 }	t_redirection;
 

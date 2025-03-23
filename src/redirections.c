@@ -2,6 +2,44 @@
 
 #include "../inc/minishell.h"
 
+int	set_input_redir(t_redirection *redir, int fd, int type)
+{
+	if (type == 0)
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (1);
+		close(fd);
+	}
+	else
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (1);
+		close(fd);
+		if (redir->next)
+			redir->next->flag_in = 1;
+	}
+	return (0);
+}
+
+int	set_output_redir(t_redirection *redir , int fd, int type)
+{
+	if (type == 0)
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			return (1);
+		close(fd);
+	}
+	else
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			return (1);
+		close(fd);
+		if (redir->next)
+			redir->next->flag_out = 1;
+	}
+	return (0);
+}
+
 
 int redir_first_child(t_redirection *redir, t_shell *shell)
 {
@@ -10,23 +48,15 @@ int redir_first_child(t_redirection *redir, t_shell *shell)
 	tmp = redir;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_IN)
-		{
-			if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-				return (1);
-			close(tmp->fd_in);
-		}
-		if (tmp->type == REDIR_OUT || tmp->type == APPEND)
-		{
-			if (dup2(tmp->fd_out, STDOUT_FILENO) == -1)
-				return (1);
-			close(tmp->fd_out);
-		}
+		if (tmp->type == REDIR_IN && set_input_redir(tmp, tmp->fd_in, 0))
+			return (1);
+		if ((tmp->type == REDIR_OUT || tmp->type == APPEND) 
+				&& set_output_redir(tmp, tmp->fd_out, 0))
+			return (1);
 		else
 		{
-			if (dup2(shell->pipes[1], STDOUT_FILENO) == -1)
+			if (set_output_redir(tmp, shell->pipes[1], 0))
 				return (1);
-		
 		}
 		tmp = tmp->next;
 	}
@@ -36,31 +66,19 @@ int redir_first_child(t_redirection *redir, t_shell *shell)
 int	redir_last_child(t_redirection *redir, t_shell *shell)
 {
 	t_redirection	*tmp;
-	int				flag;
 
 	tmp = redir;
-	flag = 0;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_IN)
-		{
-			if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-				return (1);
-			close(tmp->fd_in);
-			flag = 1;
-		}
-		else if (tmp->type != REDIR_IN && flag == 0)
-		{
-			if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == -1)
-				return (1);
-			flag = 1;
-		}
-		if (tmp->type == REDIR_OUT || tmp->type == APPEND)
-		{
-			if (dup2(tmp->fd_out, STDOUT_FILENO) == -1)
-				return (1);
-			close (tmp->fd_out);
-		}
+		tmp->flag_in = 0;
+		if (tmp->type == REDIR_IN && set_input_redir(tmp, tmp->fd_in, 1))
+			return (1);
+		else if (tmp->type != REDIR_IN && tmp->flag_in == 0 
+				&& set_input_redir(tmp, shell->pipes[2 * shell->child - 2], 1))
+			return (1);
+		if ((tmp->type == REDIR_OUT || tmp->type == APPEND) 
+				&& set_output_redir(tmp, tmp->fd_out, 0))
+			return (1);
 		tmp = tmp->next;
 	}
 	return (0);	
@@ -69,38 +87,23 @@ int	redir_last_child(t_redirection *redir, t_shell *shell)
 int	redir_n_child(t_redirection *redir, t_shell *shell)
 {
 	t_redirection	*tmp;
-	int				flag_in;
-	int				flag_out;
 
 	tmp = redir;
-	flag_in = 0;
-	flag_out = 0;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_IN)
-		{
-			if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
-				return (1);
-			close (tmp->fd_in);
-			flag_in = 1;
-		}
-		else if (tmp->type != REDIR_IN && flag_in == 0)
-		{
-			if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == -1)
-				return (1);
-		}
-		if (tmp->type == REDIR_OUT || tmp->type == APPEND)
-		{
-			if (dup2(tmp->fd_out, STDOUT_FILENO) == -1)
-				return (1);
-			close (tmp->fd_out);
-			flag_out = 1;
-		}
-		else if (tmp->type != REDIR_OUT && tmp->type != APPEND && flag_out == 0)
-		{
-			if (dup2(shell->pipes[2 * shell->child + 1], STDOUT_FILENO) == -1)
-				return (1);
-		}
+		tmp->flag_in = 0;
+		tmp->flag_out = 0;
+		if (tmp->type == REDIR_IN && set_input_redir(tmp, tmp->fd_in, 1))
+			return (1);
+		else if (tmp->type != REDIR_IN && tmp->flag_in == 0 
+				&& set_input_redir(tmp, shell->pipes[2 * shell->child - 2], 0))
+			return (1);
+		if ((tmp->type == REDIR_OUT || tmp->type == APPEND) 
+				&& set_output_redir(tmp, tmp->fd_out, 1))
+			return (1);
+		else if (tmp->type != REDIR_OUT && tmp->type != APPEND && tmp->flag_out == 0 
+				&& set_output_redir(tmp, shell->pipes[2 * shell->child + 1], 0))
+			return (1);
 		tmp = tmp->next;
 	}
 	return (0);

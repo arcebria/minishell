@@ -24,6 +24,8 @@ t_command	*init_command(void)
 	//cmd->cmd = NULL;
 	cmd->path = NULL;
 	cmd->redirs = NULL;
+	//cmd->redirs->flag_in = 0;
+	//cmd->redirs->flag_out = 0;
 	cmd->next = NULL;
 	return (cmd);
 }

@@ -20,7 +20,7 @@ void	minishell_loop(t_env *env)
 	t_shell		*shell;
 	int	exit_status;
 
-		exit_status = 1;
+	exit_status = 1;
 	command = NULL;
 	while (1)
 	{
