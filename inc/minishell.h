@@ -44,6 +44,8 @@ typedef struct s_shell
 	int		*pipes;
 	pid_t	*pids;
 	int		child;
+	int		flag_in;
+	int		flag_out;
 }	t_shell;
 
 typedef struct s_token
@@ -59,8 +61,6 @@ typedef struct s_redirection
 	char					*file;
 	int						fd_in;
 	int						fd_out;
-	int						flag_in;
-	int						flag_out;
 	struct s_redirection	*next;
 }	t_redirection;
 

@@ -87,47 +87,26 @@ int	redir_one_cmd(t_redirection *redir)
 
 int	redir_pipes(t_redirection *redir, t_shell *shell)
 {
-	if (shell->child == 0)
+	int	in_fd;
+	int	out_fd;
+	if (redir)
 	{
-		if (!redir)
-		{
-			if (dup2(shell->pipes[1], STDOUT_FILENO) == -1)
-				return (1);
-		}
-		else
-		{
-			if (redir_first_child(redir, shell))
-				return (1);
-		}
+		if (shell->child == 0)
+			return (redir_first_child(redir, shell));
+		if (shell->child == shell->n_pipes)
+			return (redir_last_child(redir, shell));
+		return (redir_n_child(redir, shell));
 	}
-	else if (shell->child == shell->n_pipes)
-	{
-		if (!redir)
-		{
-			if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == - 1)
-				return (1);
-		}
-		else
-		{
-			if (redir_last_child(redir, shell))
-				return (1);
-		}
-	}
-	else
-	{
-		if (!redir)
-		{
-			if (dup2(shell->pipes[2 * shell->child - 2], STDIN_FILENO) == -1)
-				return (1);
-			if (dup2(shell->pipes[2 * shell->child + 1], STDOUT_FILENO) == -1)
-				return (1);	
-		}
-		else
-		{
-			if (redir_n_child(redir, shell))
-				return (1);
-		}
-	}
+	in_fd = -1;
+	out_fd = -1;
+	if (shell->child != 0)
+		in_fd = shell->pipes[2 * shell->child - 2];
+	if (shell->child != shell->n_pipes)
+		out_fd = shell->pipes[2 * shell->child + 1];
+	if (in_fd != -1 && dup2(in_fd, STDIN_FILENO) == -1)
+		return (1);
+	if (out_fd != -1 && dup2(out_fd, STDOUT_FILENO) == -1)
+		return (1);
 	return (0);
 }
 

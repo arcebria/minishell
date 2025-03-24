@@ -35,6 +35,8 @@ t_shell	*init_shell(t_command *cmd)
 	shell->child = 0;
 	shell->n_cmds = cmd_size(cmd);
 	shell->n_pipes = shell->n_cmds - 1;
+	shell->flag_in = 0;
+	shell->flag_out = 0;
 	shell->pids = malloc(sizeof(pid_t) * shell->n_cmds);
 	if (!shell->pids)
 		return (NULL);
