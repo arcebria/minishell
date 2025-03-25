@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/25 19:34:44 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:42:31 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	redir_one_cmd(t_redirection *redir)
 	tmp = redir;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_IN)
+		if (tmp->type == REDIR_IN || tmp->type == HEREDOC)
 		{
 			if (dup2(tmp->fd_in, STDIN_FILENO) == -1)
 				return (1);
@@ -178,6 +178,8 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	}
 	free(shell->pipes);
 	free(shell->pids);
+	if (shell->here_doc)
+		unlink("/tmp/heredoc.tmp");
 	return (exit_status);
 }
 

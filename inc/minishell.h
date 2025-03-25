@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/19 16:58:27 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:33:45 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_shell
 	int		child;
 	int		flag_in;
 	int		flag_out;
+	int		here_doc;
 }	t_shell;
 
 typedef struct s_token

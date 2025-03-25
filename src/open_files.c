@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:18:35 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/19 21:29:14 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:41:20 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	open_heredoc(t_redirection *redir, t_shell *shell)
+{
+	int		tmp_fd;
+	char	*line;
+	char	*delimiter;
+
+	shell->here_doc = 1;
+	delimiter = redir->file;
+	tmp_fd = open("/tmp/heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (tmp_fd == -1)
+		err_out("minishell: heredoc: ", strerror(errno), NULL, NULL);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || ft_strcmp(line, delimiter) == 0)
+			break ;
+		ft_putstr_fd(line, tmp_fd);
+		ft_putstr_fd("\n", tmp_fd);
+		free(line);
+	}
+	close(tmp_fd);
+	redir->fd_in = open("/tmp/heredoc.tmp", O_RDONLY);
+	if (redir->fd_in == -1)
+		err_out("minishell: heredoc: ", strerror(errno), NULL, NULL);
+}
 
 void	create_pipes(t_shell *shell)
 {
@@ -37,6 +63,7 @@ t_shell	*init_shell(t_command *cmd)
 	shell->n_pipes = shell->n_cmds - 1;
 	shell->flag_in = 0;
 	shell->flag_out = 0;
+	shell->here_doc = 0;
 	shell->pids = malloc(sizeof(pid_t) * shell->n_cmds);
 	if (!shell->pids)
 		return (NULL);
@@ -45,8 +72,6 @@ t_shell	*init_shell(t_command *cmd)
 		return (NULL);
 	return (shell);
 }
-
-//problema con el manejo de error si el file de entrada no existe
 
 void	open_infile(t_redirection *redir)
 {
@@ -73,8 +98,7 @@ t_shell	*setup_exec(t_command *cmd)
 	t_command		*c_tmp;
 	t_redirection	*r_tmp;
 
-	//if (!cmd->redirs)
-	//	return (NULL);
+	shell = init_shell(cmd);
 	c_tmp = cmd;
 	while (c_tmp)
 	{
@@ -83,6 +107,8 @@ t_shell	*setup_exec(t_command *cmd)
 		{
 			if (r_tmp->type == REDIR_IN)
 				open_infile(r_tmp);
+			else if (r_tmp->type == HEREDOC)
+				open_heredoc(r_tmp, shell);
 			else if (r_tmp->type == REDIR_OUT)
 				open_outfile(r_tmp, 0);
 			else if (r_tmp->type == APPEND)
@@ -91,7 +117,6 @@ t_shell	*setup_exec(t_command *cmd)
 		}
 		c_tmp = c_tmp->next;
 	}
-	shell = init_shell(cmd);
 	create_pipes(shell);
 	return (shell);
 }
