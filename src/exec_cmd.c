@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/25 21:42:31 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:44:14 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,28 @@ void 	clean_fds(t_command *cmd)
 	}
 }
 
+void	make_unlink(t_command *cmd, t_shell *shell)
+{
+	t_command		*c_tmp;
+	t_redirection	*r_tmp;
+
+	if (shell->here_doc)
+	{
+		c_tmp = cmd;
+		while (c_tmp)
+		{
+			r_tmp = c_tmp->redirs;
+			while (r_tmp)
+			{
+				if (r_tmp->type == HEREDOC)
+					unlink(r_tmp->hd_filename);
+				r_tmp = r_tmp->next;
+			}
+			c_tmp = c_tmp->next;
+		}
+	}
+}
+
 int	exe_parent(t_command *cmd, t_shell *shell)
 {
 	int		exit_status;
@@ -178,8 +200,9 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	}
 	free(shell->pipes);
 	free(shell->pids);
-	if (shell->here_doc)
-		unlink("/tmp/heredoc.tmp");
+	make_unlink(cmd, shell);
+	//if (shell->here_doc)
+	//	unlink("/tmp/heredoc.tmp");
 	return (exit_status);
 }
 

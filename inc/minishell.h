@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/25 21:33:45 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:32:23 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_redirection
 	char					*file;
 	int						fd_in;
 	int						fd_out;
+	char					*hd_filename;
 	struct s_redirection	*next;
 }	t_redirection;
 

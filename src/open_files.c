@@ -6,13 +6,30 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:18:35 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/25 21:41:20 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:39:23 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	open_heredoc(t_redirection *redir, t_shell *shell)
+void	free_and_out(t_redirection *redir)
+{
+	free(redir->hd_filename);
+	err_out("minishell: heredoc: ", strerror(errno), NULL, NULL);
+}
+
+char	*get_hd_filename(int hd_count)
+{
+	char	*num;
+	char	*filename;
+
+	num = ft_itoa(hd_count);
+	filename = ft_strjoin("/tmp/heredoc_", num);
+	free(num);
+	return (filename);
+}
+
+void	open_heredoc(t_redirection *redir, t_shell *shell, int hd_count)
 {
 	int		tmp_fd;
 	char	*line;
@@ -20,9 +37,10 @@ void	open_heredoc(t_redirection *redir, t_shell *shell)
 
 	shell->here_doc = 1;
 	delimiter = redir->file;
-	tmp_fd = open("/tmp/heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	redir->hd_filename = get_hd_filename(hd_count);
+	tmp_fd = open(redir->hd_filename, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (tmp_fd == -1)
-		err_out("minishell: heredoc: ", strerror(errno), NULL, NULL);
+		free_and_out(redir);
 	while (1)
 	{
 		line = readline("> ");
@@ -33,9 +51,9 @@ void	open_heredoc(t_redirection *redir, t_shell *shell)
 		free(line);
 	}
 	close(tmp_fd);
-	redir->fd_in = open("/tmp/heredoc.tmp", O_RDONLY);
+	redir->fd_in = open(redir->hd_filename, O_RDONLY);
 	if (redir->fd_in == -1)
-		err_out("minishell: heredoc: ", strerror(errno), NULL, NULL);
+		free_and_out(redir);
 }
 
 void	create_pipes(t_shell *shell)
@@ -92,12 +110,26 @@ void	open_outfile(t_redirection *redir, int append)
 		strerror(errno);
 }
 
+void	check_redir_type(t_redirection *redir, t_shell *shell, int hd_count)
+{
+	if (redir->type == REDIR_IN)
+		open_infile(redir);
+	else if (redir->type == HEREDOC)
+		open_heredoc(redir, shell, hd_count);
+	else if (redir->type == REDIR_OUT)
+		open_outfile(redir, 0);
+	else if (redir->type == APPEND)
+		open_outfile(redir, 1);
+}
+
 t_shell	*setup_exec(t_command *cmd)
 {
 	t_shell			*shell;
 	t_command		*c_tmp;
 	t_redirection	*r_tmp;
+	int				hd_count;
 
+	hd_count = 0;
 	shell = init_shell(cmd);
 	c_tmp = cmd;
 	while (c_tmp)
@@ -105,14 +137,7 @@ t_shell	*setup_exec(t_command *cmd)
 		r_tmp = c_tmp->redirs;
 		while (r_tmp)
 		{
-			if (r_tmp->type == REDIR_IN)
-				open_infile(r_tmp);
-			else if (r_tmp->type == HEREDOC)
-				open_heredoc(r_tmp, shell);
-			else if (r_tmp->type == REDIR_OUT)
-				open_outfile(r_tmp, 0);
-			else if (r_tmp->type == APPEND)
-				open_outfile(r_tmp, 1);
+			check_redir_type(r_tmp, shell, hd_count++);
 			r_tmp = r_tmp->next;
 		}
 		c_tmp = c_tmp->next;
