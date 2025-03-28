@@ -6,11 +6,11 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/26 17:44:14 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/28 20:35:17 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	close_pipes(t_shell *shell)
 {
@@ -89,6 +89,7 @@ int	redir_pipes(t_redirection *redir, t_shell *shell)
 {
 	int	in_fd;
 	int	out_fd;
+
 	if (redir)
 	{
 		if (shell->child == 0)
@@ -125,11 +126,12 @@ int	dup_files(t_redirection *redir, t_shell *shell)
 	return (0);
 }
 
-void	exe_child(t_command *cmd, t_shell *shell)
+void	exe_child(t_command *cmd, t_shell *shell, t_env *env)
 {
 	if (dup_files(cmd->redirs, shell) == 1)
 		exit(1);
 	close_pipes(shell);
+	check_built_ins(cmd, env);
 	execve(cmd->path, cmd->args, cmd->env_array);
 	err_out("minishell: ", "command not found: ", "", cmd->args[0]);
 	exit(127);
@@ -184,7 +186,7 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	int		status;
 	pid_t	wpid;
 
-	exit_status = 1;
+	exit_status = shell->cd_exit_status;
 	shell->child--;
 	close_fds(cmd, shell);
 	clean_fds(cmd);
@@ -201,8 +203,6 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	free(shell->pipes);
 	free(shell->pids);
 	make_unlink(cmd, shell);
-	//if (shell->here_doc)
-	//	unlink("/tmp/heredoc.tmp");
 	return (exit_status);
 }
 
@@ -215,12 +215,19 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 	c_tmp = cmd;
 	while (shell->child < shell->n_cmds)
 	{
+		if (ft_strcmp(c_tmp->args[0], "cd") == 0)
+		{
+			shell->cd_exit_status = mini_cd(c_tmp->args, env, shell->n_cmds);
+			shell->child++;
+			c_tmp = c_tmp->next;
+			continue ;
+		}
 		get_cmd(c_tmp, env);
 		shell->pids[shell->child] = fork();
 		if (shell->pids[shell->child] == -1)
 			return (perror("fork"), 1);
 		else if (shell->pids[shell->child] == 0)
-			exe_child(c_tmp, shell);
+			exe_child(c_tmp, shell, env);
 		shell->child++;
 		c_tmp = c_tmp->next;
 	}

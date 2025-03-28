@@ -6,11 +6,11 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:57:57 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/17 19:12:28 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:07:36 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 t_command	*init_command(void)
 {

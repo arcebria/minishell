@@ -2,7 +2,7 @@
 
 //problemas cuando se redirecciona a dos outputs diferentes ls > out > out2
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	set_input_redir(t_shell *shell, int fd, int type)
 {

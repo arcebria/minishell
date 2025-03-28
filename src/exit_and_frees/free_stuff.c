@@ -6,11 +6,11 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:36:51 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/18 16:39:59 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:07:18 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	free_env(t_env **env)
 {

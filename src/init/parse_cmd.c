@@ -6,11 +6,11 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 21:09:03 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/19 16:11:28 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:07:33 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	env_size(t_env *env)
 {

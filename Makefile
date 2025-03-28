@@ -6,48 +6,105 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/03/25 19:03:41 by arcebria         ###   ########.fr        #
+#    Updated: 2025/03/28 19:10:22 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
+#    Updated: 2025/03/27 12:23:25 by aguinea          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRC_DIR = src
-OBJ_DIR = obj
+################################################################################
+#                             COMPILATION & MORE                               #
+################################################################################
 
-SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+NAME		= minishell
 
-LIBFT_DIR = libft
-LIBFT_A = $(LIBFT_DIR)/libft.a
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+DEPFLAGS	= -MMD -MF $(DEPDIR)/$*.d
+INCLUDE		= -Iinc -Ilibft
 
-INCLUDE = inc/minishell.h libft/libft.h libft/ft_printf.h
 
-all: dir $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT_A) Makefile
-		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT_A) -o $(NAME) -lreadline
-		@echo "\033[31mPLVS VLTRA\033[0m"
+################################################################################
+#                                 PATH/TO/SRCS                                 #
+################################################################################
 
-dir:
-	@make -C $(LIBFT_DIR) --silent
+SRCDIR		= src
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE)
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+OBJDIR		= obj
 
-clean:
-	@make -C $(LIBFT_DIR) clean --silent
-	@rm -rf $(OBJ_DIR)
-	@echo "\033[31mNON PLVS VLTRA\033[0m"
+DEPDIR		= deps
 
-fclean: clean
-	@make -C $(LIBFT_DIR) fclean --silent
-	@rm -f $(NAME)
+LIBFT_DIR	= libft
 
-re: fclean all
+INCLUDE_DIR	= inc
 
-.PHONY: all clean fclean
+################################################################################
+#                           SRCS & OBJS & DEPS                                 #
+################################################################################
+
+
+LIBFT_A		= $(LIBFT_DIR)/libft.a
+
+HEADER		= $(INCLUDE_DIR)/minishell.h
+HEAD_LIBFT	= $(LIBFT_DIR)/libft.h
+ALL_HEADERS	= $(HEADER) $(HEAD_LIBFT)
+
+
+SRCS 		= src/main/main.c src/init/init_env.c src/init/tokenizer.c 				\
+       		src/exit_and_frees/free_stuff.c 										\
+       		src/init/parser.c src/init/syntax_analize.c src/init/parse_cmd.c 		\
+       		src/exec/exec_cmd.c src/exec/redirections.c 							\
+       		src/others/open_files.c src/exit_and_frees/handler_errors.c 			\
+       		src/exec/built_ins.c													\
+       		#src/others/signals.c
+
+OBJS 		= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+DEPS 		= $(OBJS:$(OBJDIR)/%.o=$(DEPDIR)/%.d)
+
+
+################################################################################
+#                              MAKEFILE RULES                                  #
+################################################################################
+
+
+all				: dir $(LIBFT_A) $(NAME)
+
+$(NAME)			: $(OBJS) $(LIBFT_A) Makefile
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME) -lreadline
+				@echo "\033[31mPLVS VLTRA\033[0m"
+
+dir				:
+				@mkdir -p $(OBJDIR) $(DEPDIR) $(dir $(OBJS)) $(dir $(DEPS))
+
+$(LIBFT_A)		:
+				@make -C $(LIBFT_DIR) --silent
+
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(ALL_HEADERS) | dir
+				@$(CC) $(CFLAGS) $(DEPFLAGS) $(INCLUDE) -c $< -o $@
+
+clean			:
+				@make -C $(LIBFT_DIR) clean --silent
+				@rm -rf $(OBJDIR) $(DEPDIR)
+				@echo "\033[31mNON PLVS VLTRA\033[0m"
+
+fclean			: clean
+				@make -C $(LIBFT_DIR) fclean --silent
+				@rm -f $(NAME)
+
+re				: fclean all
+
+-include $(DEPS)
+
+.PHONY: all clean fclean re dir

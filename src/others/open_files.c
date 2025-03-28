@@ -6,11 +6,11 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:18:35 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/26 17:39:23 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/03/28 20:53:09 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	free_and_out(t_redirection *redir)
 {
@@ -82,6 +82,7 @@ t_shell	*init_shell(t_command *cmd)
 	shell->flag_in = 0;
 	shell->flag_out = 0;
 	shell->here_doc = 0;
+	shell->cd_exit_status = 1;
 	shell->pids = malloc(sizeof(pid_t) * shell->n_cmds);
 	if (!shell->pids)
 		return (NULL);

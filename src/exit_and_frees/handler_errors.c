@@ -1,6 +1,6 @@
 //header
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	err_out(char *str1, char *str2, char *str3, char *str4)
 {
