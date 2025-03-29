@@ -47,7 +47,7 @@ typedef struct s_shell
 	int		flag_in;
 	int		flag_out;
 	int		here_doc;
-	int		cd_exit_status;
+	int		builtins_exit_status;
 }	t_shell;
 
 typedef struct s_token
@@ -102,7 +102,8 @@ int			redir_first_child(t_redirection *redir, t_shell *shell);
 int			redir_last_child(t_redirection *redir, t_shell *shell);
 int			redir_n_child(t_redirection *redir, t_shell *shell);
 void		err_out(char *str1, char *str2, char *str3, char *str4);
-void	check_built_ins(t_command *cmd, t_env *env);
+void	check_child_builtin(t_command *cmd, t_env **env);
 int	mini_cd(char **args, t_env *env_lst, int flag);
+int	check_parent_builtins(t_command *cmd, t_shell *shell, t_env **env, t_env **export);
 
 #endif

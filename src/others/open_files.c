@@ -82,7 +82,7 @@ t_shell	*init_shell(t_command *cmd)
 	shell->flag_in = 0;
 	shell->flag_out = 0;
 	shell->here_doc = 0;
-	shell->cd_exit_status = 1;
+	shell->builtins_exit_status = 1;
 	shell->pids = malloc(sizeof(pid_t) * shell->n_cmds);
 	if (!shell->pids)
 		return (NULL);

@@ -131,7 +131,7 @@ void	exe_child(t_command *cmd, t_shell *shell, t_env *env)
 	if (dup_files(cmd->redirs, shell) == 1)
 		exit(1);
 	close_pipes(shell);
-	check_built_ins(cmd, env);
+	check_child_builtin(cmd, &env);
 	execve(cmd->path, cmd->args, cmd->env_array);
 	err_out("minishell: ", "command not found: ", "", cmd->args[0]);
 	exit(127);
@@ -186,7 +186,7 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	int		status;
 	pid_t	wpid;
 
-	exit_status = shell->cd_exit_status;
+	exit_status = shell->builtins_exit_status;
 	shell->child--;
 	close_fds(cmd, shell);
 	clean_fds(cmd);
@@ -215,9 +215,8 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 	c_tmp = cmd;
 	while (shell->child < shell->n_cmds)
 	{
-		if (ft_strcmp(c_tmp->args[0], "cd") == 0)
+		if (check_parent_builtins(c_tmp, shell, &env, &env))
 		{
-			shell->cd_exit_status = mini_cd(c_tmp->args, env, shell->n_cmds);
 			shell->child++;
 			c_tmp = c_tmp->next;
 			continue ;
