@@ -97,6 +97,8 @@ char	*get_path(char **env, t_command *cmd)
 
 void	get_cmd(t_command *cmd, t_env *env)
 {
+	if (!cmd->args)
+		return ;
 	cmd->env_array = env_to_array(env);
 	if (ft_strchr(cmd->args[0], '/'))
 		cmd->path = ft_strdup(cmd->args[0]);

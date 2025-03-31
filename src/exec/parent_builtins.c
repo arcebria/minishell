@@ -148,6 +148,8 @@ int	mini_cd(char **args, t_env *env_lst, int n_cmds)
 
 int	check_parent_builtins(t_command *cmd, t_shell *shell, t_env **env, t_env **export)
 {
+	if (!cmd->args)
+		return (0);
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 	{
 		shell->builtins_exit_status = mini_cd(cmd->args, *env, shell->n_cmds);	

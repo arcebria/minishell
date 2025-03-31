@@ -126,8 +126,29 @@ int	dup_files(t_redirection *redir, t_shell *shell)
 	return (0);
 }
 
+int	search_heredoc(t_redirection *redir)
+{
+	t_redirection	*tmp;
+
+	tmp = redir;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void	exe_child(t_command *cmd, t_shell *shell, t_env *env)
 {
+	if (!cmd->args)
+	{
+		if (search_heredoc(cmd->redirs))
+			exit(0);
+		else
+			exit(127);
+	}
 	if (dup_files(cmd->redirs, shell) == 1)
 		exit(1);
 	close_pipes(shell);
@@ -210,8 +231,8 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 {
 	t_command	*c_tmp;
 
-	if (!cmd || !cmd->args)
-		return (1);
+	//if (!cmd || !cmd->args)
+	//	return (1);
 	c_tmp = cmd;
 	while (shell->child < shell->n_cmds)
 	{

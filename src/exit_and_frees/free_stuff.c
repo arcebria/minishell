@@ -60,6 +60,8 @@ void	free_redir(t_redirection **redir)
 	while (current)
 	{
 		tmp = current->next;
+		if (current->type == HEREDOC)
+			free(current->hd_filename);
 		free(current->file);
 		free(current);
 		current = tmp;

@@ -29,7 +29,65 @@ char	*get_hd_filename(int hd_count)
 	return (filename);
 }
 
-void	open_heredoc(t_redirection *redir, t_shell *shell, int hd_count)
+char	*search_value(char *key, t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+		{
+			if (tmp->value)
+				return (tmp->value);
+			else
+				return ("");
+		}
+		tmp = tmp->next;
+	}
+	return ("");
+}
+
+char	*line_expanded(char *line, t_env *env)
+{
+	char	*result;
+	char	*tmp;
+	char	*value;
+	int		i = 0, start;
+
+	result = ft_strdup("");
+
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			i++;
+			start = i;
+			while (line[i] && line[i] != ' ' && line[i] != '$')
+				i++;
+			char *key = ft_substr(line, start, i - start);
+			value = search_value(key, env);
+			tmp = ft_strjoin(result, value);
+			free(result);
+			result = tmp;
+			free(key);
+		}
+		else
+		{
+			start = i;
+			while (line[i] && line[i] != '$')
+				i++;
+			char *normal_text = ft_substr(line, start, i - start);
+			tmp = ft_strjoin(result, normal_text);
+			free(result);
+			result = tmp;
+			free(normal_text);
+		}
+	}
+	return (result);
+}
+
+void	open_heredoc(t_redirection *redir, t_shell *shell, int count, t_env *env)
 {
 	int		tmp_fd;
 	char	*line;
@@ -37,7 +95,7 @@ void	open_heredoc(t_redirection *redir, t_shell *shell, int hd_count)
 
 	shell->here_doc = 1;
 	delimiter = redir->file;
-	redir->hd_filename = get_hd_filename(hd_count);
+	redir->hd_filename = get_hd_filename(count);
 	tmp_fd = open(redir->hd_filename, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (tmp_fd == -1)
 		free_and_out(redir);
@@ -46,6 +104,7 @@ void	open_heredoc(t_redirection *redir, t_shell *shell, int hd_count)
 		line = readline("> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 			break ;
+		line = line_expanded(line, env);
 		ft_putstr_fd(line, tmp_fd);
 		ft_putstr_fd("\n", tmp_fd);
 		free(line);
@@ -111,19 +170,19 @@ void	open_outfile(t_redirection *redir, int append)
 		strerror(errno);
 }
 
-void	check_redir_type(t_redirection *redir, t_shell *shell, int hd_count)
+void	check_type(t_redirection *redir, t_shell *shell, int count, t_env *env)
 {
 	if (redir->type == REDIR_IN)
 		open_infile(redir);
 	else if (redir->type == HEREDOC)
-		open_heredoc(redir, shell, hd_count);
+		open_heredoc(redir, shell, count, env);
 	else if (redir->type == REDIR_OUT)
 		open_outfile(redir, 0);
 	else if (redir->type == APPEND)
 		open_outfile(redir, 1);
 }
 
-t_shell	*setup_exec(t_command *cmd)
+t_shell	*setup_exec(t_command *cmd, t_env *env)
 {
 	t_shell			*shell;
 	t_command		*c_tmp;
@@ -138,7 +197,7 @@ t_shell	*setup_exec(t_command *cmd)
 		r_tmp = c_tmp->redirs;
 		while (r_tmp)
 		{
-			check_redir_type(r_tmp, shell, hd_count++);
+			check_type(r_tmp, shell, hd_count++, env);
 			r_tmp = r_tmp->next;
 		}
 		c_tmp = c_tmp->next;

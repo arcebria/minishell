@@ -33,7 +33,7 @@ void	minishell_loop(t_env *env)
 		if (syntax_analize(token) == 0)
 		{
 			command = parse_pipeline(token);
-			shell = setup_exec(command);
+			shell = setup_exec(command, env);
 			exit_status = exec_cmd(command, shell, env);
 		}
 		else
