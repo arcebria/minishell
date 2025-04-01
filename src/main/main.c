@@ -20,7 +20,7 @@ void	minishell_loop(t_env *env)
 	t_shell		*shell;
 	int	exit_status;
 
-	exit_status = 1;
+	exit_status = 0;
 	command = NULL;
 	while (1)
 	{
@@ -33,7 +33,7 @@ void	minishell_loop(t_env *env)
 		if (syntax_analize(token) == 0)
 		{
 			command = parse_pipeline(token);
-			shell = setup_exec(command, env);
+			shell = setup_exec(command, env, exit_status);
 			exit_status = exec_cmd(command, shell, env);
 		}
 		else

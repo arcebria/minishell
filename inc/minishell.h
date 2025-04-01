@@ -96,7 +96,7 @@ void		get_cmd(t_command *cmd, t_env *env);
 //void	pwd(void);
 t_env		*init_env(char **env);
 int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env);
-t_shell	*setup_exec(t_command *cmd, t_env *env);
+t_shell	*setup_exec(t_command *cmd, t_env *env, int	exit_status);
 int			cmd_size(t_command *cmd);
 int			redir_first_child(t_redirection *redir, t_shell *shell);
 int			redir_last_child(t_redirection *redir, t_shell *shell);
