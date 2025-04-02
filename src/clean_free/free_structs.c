@@ -80,7 +80,6 @@ void	free_commands(t_command	**cmds)
 	while (current)
 	{
 		tmp = current->next;
-		//free(current->cmd);
 		if (current->args)
 			ft_free_array(current->args);
 		if (current->env_array)

@@ -37,6 +37,13 @@ typedef enum s_token_type
 	AMPERSAND, // &
 }	t_token_type;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_shell
 {
 	int		n_pipes;
@@ -48,6 +55,7 @@ typedef struct s_shell
 	int		flag_out;
 	int		here_doc;
 	int		builtins_exit_status;
+	t_env	*env;
 }	t_shell;
 
 typedef struct s_token
@@ -76,13 +84,6 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
 t_token		*tokenizer(char *input);
 void		free_tokens(t_token **token);
 t_command	*parse_pipeline(t_token	*token);
@@ -96,7 +97,7 @@ void		get_cmd(t_command *cmd, t_env *env);
 //void	pwd(void);
 t_env		*init_env(char **env);
 int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env);
-t_shell	*setup_exec(t_command *cmd, t_env *env, int	exit_status);
+t_shell	*setup_exec(t_command *cmd, int exit_status);
 int			cmd_size(t_command *cmd);
 int			redir_first_child(t_redirection *redir, t_shell *shell);
 int			redir_last_child(t_redirection *redir, t_shell *shell);

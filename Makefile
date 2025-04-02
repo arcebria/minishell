@@ -66,7 +66,7 @@ SRCS 		= src/main/main.c src/init/init_env.c src/init/tokenizer.c 				\
        		src/exit_and_frees/free_stuff.c 										\
        		src/init/parser.c src/init/syntax_analize.c src/init/parse_cmd.c 		\
        		src/exec/exec_cmd.c src/exec/redirections.c 							\
-       		src/others/open_files.c src/exit_and_frees/handler_errors.c 			\
+       		src/setup_exec/open_files.c src/exit_and_frees/handler_errors.c 			\
        		src/exec/built_ins.c src/exec/parent_builtins.c												\
        		#src/others/signals.c
 
