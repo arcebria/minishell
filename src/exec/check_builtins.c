@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_builtins.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/02 14:18:40 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/02 17:01:10 by arcebria         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	check_child_builtin(t_command *cmd, t_env **env)
@@ -27,7 +39,7 @@ int	check_parent_builtin(t_command *cmd, t_shell *shell,
 	}
 	/*if (ft_strcmp(cmd->args[0], "export") == 0)
 	{
-		shell->builtins_exit_status = mini_cd(cmd, env, export);	
+		shell->builtins_exit_status = mini_export(cmd, env, export);
 		return (1);
 	}*/
 	return (0);

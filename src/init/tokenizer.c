@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/28 19:07:43 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:39:23 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	add_token(t_token **token, char *value, int type, int *i)
 		last_node = find_last(*token);
 		last_node->next = new_node;
 	}
-	if (new_node->type == PIPE || new_node->type == AMPERSAND
-		|| new_node->type == REDIR_IN || new_node->type == REDIR_OUT
-		|| new_node->type == APPEND || new_node->type == HEREDOC)
+	if (new_node->type == PIPE || new_node->type == REDIR_IN
+		|| new_node->type == REDIR_OUT || new_node->type == APPEND
+		|| new_node->type == HEREDOC)
 		(*i)++;
 	if (new_node->type == APPEND || new_node->type == HEREDOC)
 		(*i)++;

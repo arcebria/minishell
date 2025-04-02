@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/28 20:35:17 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:31:47 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
 	c_tmp = cmd;
 	while (shell->child < shell->n_cmds)
 	{
-		if (check_parent_builtins(c_tmp, shell, &env, &env))
+		if (check_parent_builtin(c_tmp, shell, &env, &env))
 		{
 			shell->child++;
 			c_tmp = c_tmp->next;

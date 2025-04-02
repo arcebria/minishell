@@ -1,6 +1,14 @@
-//header
-
-//problemas cuando se redirecciona a dos outputs diferentes ls > out > out2
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_dup.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/02 15:26:56 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/02 15:26:58 by arcebria         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -40,7 +48,7 @@ int	set_output_redir(t_shell *shell, int fd, int type)
 	return (0);
 }
 
-int	redir_first_child(t_redirection *redir, t_shell *shell)
+int	dup_first_child(t_redirection *redir, t_shell *shell)
 {
 	t_redirection	*tmp;
 
@@ -65,7 +73,7 @@ int	redir_first_child(t_redirection *redir, t_shell *shell)
 	return (0);
 }
 
-int	redir_last_child(t_redirection *redir, t_shell *shell)
+int	dup_last_child(t_redirection *redir, t_shell *shell)
 {
 	t_redirection	*tmp;
 
@@ -89,7 +97,7 @@ int	redir_last_child(t_redirection *redir, t_shell *shell)
 	return (0);
 }
 
-int	redir_n_child(t_redirection *redir, t_shell *shell)
+int	dup_n_child(t_redirection *redir, t_shell *shell)
 {
 	t_redirection	*tmp;
 

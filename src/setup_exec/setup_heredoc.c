@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup_heredoc.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/02 15:29:10 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/02 16:38:24 by arcebria         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	free_and_out(t_redirection *redir)
@@ -6,18 +18,19 @@ void	free_and_out(t_redirection *redir)
 	err_out("minishell: heredoc: ", strerror(errno), NULL, NULL);
 }
 
-char	*get_hd_filename(int hd_count)
+char	*get_hd_filename(t_shell *shell)
 {
 	char	*num;
 	char	*filename;
 
-	num = ft_itoa(hd_count);
+	num = ft_itoa(shell->hd_count);
 	filename = ft_strjoin("/tmp/heredoc_", num);
 	free(num);
 	return (filename);
 }
 
-void	heredoc(t_redirection *redir, t_shell *shell, int count, int stat)
+void	open_heredoc(t_redirection *redir, t_shell *shell,
+		int exit_status, t_env *env)
 {
 	int		tmp_fd;
 	char	*line;
@@ -25,7 +38,7 @@ void	heredoc(t_redirection *redir, t_shell *shell, int count, int stat)
 
 	shell->here_doc = 1;
 	delimiter = redir->file;
-	redir->hd_filename = get_hd_filename(count);
+	redir->hd_filename = get_hd_filename(shell);
 	tmp_fd = open(redir->hd_filename, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (tmp_fd == -1)
 		free_and_out(redir);
@@ -34,7 +47,7 @@ void	heredoc(t_redirection *redir, t_shell *shell, int count, int stat)
 		line = readline("> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 			break ;
-		line = line_expanded(line, shell->env, stat);
+		line = line_expanded(line, env, exit_status);
 		ft_putstr_fd(line, tmp_fd);
 		ft_putstr_fd("\n", tmp_fd);
 		free(line);

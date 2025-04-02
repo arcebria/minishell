@@ -6,7 +6,7 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/03/28 19:10:22 by arcebria         ###   ########.fr        #
+#    Updated: 2025/04/02 16:08:29 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address
 DEPFLAGS	= -MMD -MF $(DEPDIR)/$*.d
 INCLUDE		= -Iinc -Ilibft
 
@@ -63,11 +63,11 @@ ALL_HEADERS	= $(HEADER) $(HEAD_LIBFT)
 
 
 SRCS 		= src/main/main.c src/init/init_env.c src/init/tokenizer.c 				\
-       		src/exit_and_frees/free_stuff.c 										\
        		src/init/parser.c src/init/syntax_analize.c src/init/parse_cmd.c 		\
-       		src/exec/exec_cmd.c src/exec/redirections.c 							\
-       		src/setup_exec/open_files.c src/exit_and_frees/handler_errors.c 			\
-       		src/exec/built_ins.c src/exec/parent_builtins.c												\
+			src/setup_exec/open_files.c src/setup_exec/setup_heredoc.c src/setup_exec/expand_heredoc.c src/setup_exec/setup_shell.c	\
+       		src/exec/exec_cmd.c src/exec/make_dup.c  src/exec/set_dup.c src/exec/manage_heredoc.c src/exec/check_builtins.c	\
+			src/exec/mini_cd.c src/exec/mini_env_echo_pwd.c src/exec/mini_unset_export.c src/exec/minicd_utils.c							\
+       		src/clean_free/clean_fds.c 	src/clean_free/free_structs.c src/clean_free/put_errors.c		\
        		#src/others/signals.c
 
 OBJS 		= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)

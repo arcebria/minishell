@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup_shell.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/02 14:26:05 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/02 16:34:50 by arcebria         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	create_pipes(t_shell *shell)
@@ -26,6 +38,7 @@ t_shell	*init_shell(t_command *cmd)
 	shell->flag_in = 0;
 	shell->flag_out = 0;
 	shell->here_doc = 0;
+	shell->hd_count = 0;
 	shell->builtins_exit_status = 1;
 	shell->pids = malloc(sizeof(pid_t) * shell->n_cmds);
 	if (!shell->pids)

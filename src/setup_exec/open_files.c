@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:18:35 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/28 20:53:09 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:40:58 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,27 @@ void	open_outfile(t_redirection *redir, int append)
 		strerror(errno);
 }
 
-void	check_type(t_redirection *red, t_shell *shell, int cnt, int stat)
+void	check_type(t_redirection *redir, t_shell *shell, int stat, t_env *env)
 {
-	if (red->type == REDIR_IN)
-		open_infile(red);
-	else if (red->type == HEREDOC)
-		heredoc(red, shell, cnt, stat);
-	else if (red->type == REDIR_OUT)
-		open_outfile(red, 0);
-	else if (red->type == APPEND)
-		open_outfile(red, 1);
+	if (redir->type == REDIR_IN)
+		open_infile(redir);
+	else if (redir->type == HEREDOC)
+	{
+		open_heredoc(redir, shell, stat, env);
+		shell->hd_count++;
+	}
+	else if (redir->type == REDIR_OUT)
+		open_outfile(redir, 0);
+	else if (redir->type == APPEND)
+		open_outfile(redir, 1);
 }
 
-t_shell	*setup_exec(t_command *cmd, int exit_status)
+t_shell	*setup_exec(t_command *cmd, int exit_status, t_env *env)
 {
 	t_shell			*shell;
 	t_command		*c_tmp;
 	t_redirection	*r_tmp;
-	int				hd_count;
 
-	hd_count = 0;
 	shell = init_shell(cmd);
 	c_tmp = cmd;
 	while (c_tmp)
@@ -58,7 +59,7 @@ t_shell	*setup_exec(t_command *cmd, int exit_status)
 		r_tmp = c_tmp->redirs;
 		while (r_tmp)
 		{
-			check_type(r_tmp, shell, hd_count++, exit_status);
+			check_type(r_tmp, shell, exit_status, env);
 			r_tmp = r_tmp->next;
 		}
 		c_tmp = c_tmp->next;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/02 16:04:29 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/02 16:58:22 by arcebria         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	*search_value(char *key, t_env *env)
@@ -38,7 +50,8 @@ char	*expand_variable(char *line, int *i, t_env *env)
 	int		start;
 
 	start = *i;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '$')
+	while (line[*i] && line[*i] != ' ' && line[*i] != '$'
+		&& line[*i] != '\'' && line[*i] != '\"')
 		(*i)++;
 	key = ft_substr(line, start, *i - start);
 	value = search_value(key, env);
