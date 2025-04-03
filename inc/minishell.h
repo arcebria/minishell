@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 17:33:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:53:13 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,16 @@ int			mini_pwd(void);
 int			mini_echo(char **args);
 int			mini_env(t_env *env_lst);
 int			mini_unset(t_command *cmd, t_env **env, t_env **export, int n_cmds);
+
+//expansor && env
+
+t_env	*init_no_env(int flag);
+void	ft_env(t_env *env_lst);
+void	sigint_handler(int signum);
+void	setup_signals(int signal);
+t_command	*init_command(void);
+void	add_redir_utils(t_redirection *tmp,t_command *cmd, t_redirection *redir);
+void	ft_expansor(t_token *token, t_env *env, int exit_status);
 
 //manage fds
 
