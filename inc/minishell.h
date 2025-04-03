@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/03 13:53:13 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/03 18:19:40 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef enum s_token_type
 	REDIR_OUT, // >
 	HEREDOC, // <<
 	APPEND, // >>
+	AMPERSAND, // &
+	OR // ||
 }	t_token_type;
 
 typedef struct s_env
@@ -85,7 +87,7 @@ typedef struct s_command
 
 //tokenizer, syntax check and parsing
 
-t_token		*tokenizer(char *input);
+t_token		*tokenizer(char *input, t_env *env, int exit_status);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_env		*init_env(char **env);
@@ -102,7 +104,7 @@ char		*line_expanded(char *line, t_env *env, int exit_status);
 //exec
 
 void		get_cmd(t_command *cmd, t_env *env);
-int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env);
+int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env, t_env *exp);
 int			cmd_size(t_command *cmd);
 int			set_dup(t_redirection *redir, t_shell *shell);
 int			dup_first_child(t_redirection *redir, t_shell *shell);
@@ -123,6 +125,7 @@ int			mini_pwd(void);
 int			mini_echo(char **args);
 int			mini_env(t_env *env_lst);
 int			mini_unset(t_command *cmd, t_env **env, t_env **export, int n_cmds);
+int			mini_export(t_command *cmd, t_env *export, int flag);
 
 //expansor && env
 

@@ -6,7 +6,7 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/04/03 13:50:15 by aguinea          ###   ########.fr        #
+#    Updated: 2025/04/03 18:16:49 by aguinea          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,10 +56,10 @@ SRCS 		= src/main/main.c src/init/init_env.c src/init/tokenizer.c 				\
        		src/exec/exec_cmd.c src/exec/make_dup.c  src/exec/set_dup.c				\
 			src/exec/manage_heredoc.c src/exec/check_builtins.c						\
 			src/exec/mini_cd.c src/exec/mini_env_echo_pwd.c							\
-			src/exec/mini_unset_export.c src/exec/minicd_utils.c					\
+			src/exec/mini_unset.c src/exec/minicd_utils.c							\
        		src/clean_free/clean_fds.c 	src/clean_free/free_structs.c				\
-			src/clean_free/put_errors.c	src/others/signals.c						\
-			src/init/init_no_env.c					
+			src/clean_free/put_errors.c	src/exec/signals.c							\
+			src/init/init_no_env.c src/exec/mini_export.c src/init/expansor.c				
 
 OBJS 		= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 DEPS 		= $(OBJS:$(OBJDIR)/%.o=$(DEPDIR)/%.d)

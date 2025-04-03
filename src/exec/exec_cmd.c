@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 14:31:47 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:12:49 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,15 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 	return (exit_status);
 }
 
-int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env)
+int	exec_cmd(t_command *cmd, t_shell *shell, t_env *env, t_env *export)
 {
 	t_command	*c_tmp;
 
 	c_tmp = cmd;
+	setup_signals(0);
 	while (shell->child < shell->n_cmds)
 	{
-		if (check_parent_builtin(c_tmp, shell, &env, &env))
+		if (check_parent_builtin(c_tmp, shell, &env, &export))
 		{
 			shell->child++;
 			c_tmp = c_tmp->next;

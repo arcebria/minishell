@@ -6,13 +6,13 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/03 13:56:29 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/03 15:46:42 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	minishell_loop(t_env *env)
+void	minishell_loop(t_env *env, t_env *export)
 {
 	char		*input;
 	t_token		*token;
@@ -42,12 +42,11 @@ void	minishell_loop(t_env *env)
 			exit_status = 1;
 			continue ;
 		}
-
 		if (syntax_analize(token) == 0)
 		{
 			command = parse_pipeline(token);
 			shell = setup_exec(command, exit_status, env);
-			exit_status = exec_cmd(command, shell, env);
+			exit_status = exec_cmd(command, shell, env, export);
 			setup_signals(1);
 		}
 		else
@@ -92,6 +91,6 @@ int	main(int ac, char **av, char **env)
 		env_lst = init_env(env);
 		exprt_lst = init_env(env);
 	}
-	minishell_loop(env_lst);
+	minishell_loop(env_lst, exprt_lst);
 	return (0);
 }
