@@ -6,7 +6,7 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/04/03 18:16:49 by aguinea          ###   ########.fr        #
+#    Updated: 2025/04/07 15:11:43 by aguinea          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 DEPFLAGS	= -MMD -MF $(DEPDIR)/$*.d
 INCLUDE		= -Iinc -Ilibft
 
