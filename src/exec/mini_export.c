@@ -6,7 +6,7 @@
 /*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:29:58 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/03 18:21:29 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/07 16:39:00 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,13 @@ int	mini_export(t_command *cmd, t_env *export, int flag)
             ft_export_lonely(export);
         return(1);
     }
-    
+
     arg = cmd->args[1];
     tmp = export;
     value_start = find_key(arg);
     is_equal = arg;
     
-    while (tmp)
+	while (tmp)
     {
         if (ft_strncmp(tmp->key, arg, value_start - 1) == 0)
         {
@@ -153,7 +153,6 @@ int	mini_export(t_command *cmd, t_env *export, int flag)
         }
         tmp = tmp->next;
     }
-
     new_node = malloc(sizeof(t_env));
     if (!new_node)
         return(0);
