@@ -86,7 +86,7 @@ typedef struct s_command
 //tokenizer, syntax check and parsing
 
 t_token		*tokenizer(char *input);
-t_token		*expand_wildcard_token(t_token *token, char *input, int i);
+char		*expand_wildcard_input(t_token **token, char *input, int i);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_env		*init_env(char **env);

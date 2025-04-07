@@ -94,39 +94,42 @@ void	extract_word(t_token **token, char *input, int *i)
 t_token	*tokenizer(char *input)
 {
 	t_token	*token;
+	char	*new_input;
 	int		i;
 
 	token = NULL;
 	i = 0;
-	while (input[i])
+	new_input = find_wildcard(input);
+	while (new_input[i])
 	{
-		if (input[i] == ' ' || input[i] == '\t')
+		// cambiar input[i] por new_input
+		if (new_input[i] == ' ' || new_input[i] == '\t')
 			i++;
-		else if (input[i] == '|')
+		else if (new_input[i] == '|')
 			add_token(&token, "|", PIPE, &i);
-		else if (input[i] == '<')
+		else if (new_input[i] == '<')
 		{
-			if (input[i + 1] == '<')
+			if (new_input[i + 1] == '<')
 				add_token(&token, "<<", HEREDOC, &i);
 			else
 				add_token(&token, "<", REDIR_IN, &i);
 		}
-		else if (input[i] == '>')
+		else if (new_input[i] == '>')
 		{
-			if (input[i + 1] == '>')
+			if (new_input[i + 1] == '>')
 				add_token(&token, ">>", APPEND, &i);
 			else
 				add_token(&token, ">", REDIR_OUT, &i);
 		}
-		else if (input[i] == '\"' || input[i] == '\'')
+		else if (new_input[i] == '\"' || new_input[i] == '\'')
 		{
-			if (extract_quoted_token(&token, input, &i))
+			if (extract_quoted_token(&token, new_input, &i))
 				return (free_tokens(&token), NULL);
 		}
-		else if (input[i] == '*' && input[i + 1] != '*')
-			expand_wildcard_token(&token, &input[i], i);
+		else if (new_input[i] == '*' && new_input[i + 1] != '*')
+			expand_wildcard_token(&token, &new_input[i], i);
 		else
-			extract_word(&token, input, &i);
+			extract_word(&token, new_input, &i);
 	}
 	return (token);
 }

@@ -48,7 +48,7 @@ static void	print_token(t_token *token)
 	print_token_type(token->type);
 }
 
-t_token     *expand_wildcard_token(t_token **token, char *input, int i)
+char     *expand_wildcard_input(t_token **token, char *input, int i)
 {
     printf("input[%d] = %s\n", i, input);
     printf("toke->value: %s\n", (*token)->value);
