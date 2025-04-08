@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/03 18:19:40 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 14:12:15 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,14 @@ int			mini_echo(char **args);
 int			mini_env(t_env *env_lst);
 int			mini_unset(t_command *cmd, t_env **env, t_env **export, int n_cmds);
 int			mini_export(t_command *cmd, t_env *export, int flag);
+char		*export_key(char *s, int len);
+int			find_key(char *args);
+void		ft_bubble(t_env *export);
+void		ft_swap_lst(t_env *a, t_env *b);
+int			should_skip_creation(char *arg, int value_start, int flag);
+char		*get_export_value(char *arg, int value_start);
+t_env		*init_new_node(char *arg, int value_start, char *temp_value);
+void		append_to_list(t_env *export, t_env *new_node);
 
 //expansor && env
 
@@ -146,7 +154,6 @@ void		close_pipes(t_shell *shell);
 
 void		free_tokens(t_token **token);
 void		free_commands(t_command	**cmds);
-void		free_tokens(t_token **token);
 void		free_env(t_env **env);
 
 //put errors in stderr
