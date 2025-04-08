@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:57:57 by arcebria          #+#    #+#             */
-/*   Updated: 2025/03/28 19:07:36 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:04:35 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,24 @@ void	add_args(t_command *cmd, char **token, int *last)
 	cmd->args = new_args;
 }
 
-t_command	*parse_simple_cmd(char **tokens, int *i)
+t_command	*parse_simple_cmd(t_token *token, char **tokens, int *i)
 {
 	t_command	*cmd;
+	t_token		*tmp;
 
+	tmp = token;
 	if (!ft_strcmp(tokens[0], "|"))
 		return (NULL);
 	cmd = init_command();
 	//cmd->cmd = ft_strdup(tokens[*i]);
-	while (tokens[*i] && ft_strcmp(tokens[*i], "|"))
+	while (tokens[*i] && tmp->type != PIPE)
 	{
 		if (!ft_strcmp(tokens[*i], "<") || !ft_strcmp(tokens[*i], "<<")
 			|| !ft_strcmp(tokens[*i], ">") || !ft_strcmp(tokens[*i], ">>"))
 			add_redir(cmd, tokens, i);
 		else
 			add_args(cmd, tokens, i);
+		tmp = tmp->next;
 		(*i)++;
 	}
 	return (cmd);
@@ -153,7 +156,7 @@ t_command	*parse_pipeline(t_token	*token)
 	i = 0;
 	while (tokens[i])
 	{
-		new_cmd = parse_simple_cmd(tokens, &i);
+		new_cmd = parse_simple_cmd(token, tokens, &i);
 		if (!new_cmd)
 			break ;
 		if (!head)
