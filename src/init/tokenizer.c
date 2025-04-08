@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/03 14:02:42 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/07 21:48:12 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int extract_quoted_token(t_token **token, char *input, int *i)
 
 	while (input[*i] && input[*i] != quote)
 		(*i)++;
-	if (!input[*i]) // Si no se cerró la comilla
+	if (!input[*i]) // Si no se cerró la comill0a
 	{
 		ft_putstr_fd("Error: Open quotation marks\n", 2);
 		return (1);

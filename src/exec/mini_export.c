@@ -6,7 +6,7 @@
 /*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:29:58 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/07 16:39:00 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:49:09 by aguinea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ static void	ft_export_lonely(t_env *export)
 	while (tmp)
 	{
 		if (tmp->value)
-		{		
-			if (tmp->value == NULL)
+		{
+			if (!tmp->value)
 				ft_printf("declare -x %s\n", tmp->key);
-			else 
+			else
 				ft_printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
 		}
 		else
@@ -119,6 +119,47 @@ static int find_key(char *args)
 	return (i + 1);
 }
 
+static char *export_key(char *s, int len)
+{
+	char	*subs;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	subs = malloc(sizeof(char) * (len + 1));
+	if (!subs)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z') || s[i] == '_')
+			subs[i] = s[i];
+		else if (i > 0 && s[i] >= '0' && s[i] <= '9')
+			subs[i] = s[i];
+		else
+		{
+			free(subs);
+			return (NULL);
+		}
+		i++;
+	}
+	subs[len] = '\0';
+	return (subs);
+}
+
+static int	keycmp(char *key, char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i] && key[i] && arg[i] == key[i])
+		i++;
+	if ((!arg[i] || arg[i] == '=') && !key[i])
+		return (0);
+	return (1);
+}
+
+/*
 int	mini_export(t_command *cmd, t_env *export, int flag)
 {
     t_env   *tmp;
@@ -139,20 +180,22 @@ int	mini_export(t_command *cmd, t_env *export, int flag)
     tmp = export;
     value_start = find_key(arg);
     is_equal = arg;
-    
-	while (tmp)
+
+    while (tmp)
     {
-        if (ft_strncmp(tmp->key, arg, value_start - 1) == 0)
+        if (keycmp(tmp->key, arg) == 0)
         {
-            temp_value = ft_strdup(arg + value_start);
-            if (!temp_value)
-                return (1);
+			if (!(arg[value_start - 1] != '='))
+				temp_value = ft_strdup(arg + value_start);
+			else
+				return (1);
             free(tmp->value);
             tmp->value = temp_value;
             return (0);
         }
         tmp = tmp->next;
     }
+
     new_node = malloc(sizeof(t_env));
     if (!new_node)
         return(0);
@@ -176,19 +219,113 @@ int	mini_export(t_command *cmd, t_env *export, int flag)
         free(temp_value);
         temp_value = NULL;
     }
-    new_node->key = ft_substr(arg, 0, value_start - 1);
+    new_node->key = export_key(arg, value_start - 1);
     if (!new_node->key)
     {
+		err_out("minishell: ", "export: `", arg, "': not a valid identifier");
         free(new_node);
         free(temp_value);
         return(0);
     }
     new_node->value = temp_value;
     new_node->next = NULL;
-    
+
     tmp = export;
     while (tmp->next)
         tmp = tmp->next;
     tmp->next = new_node;
 	return (1);
+}*/
+
+int	mini_export(t_command *cmd, t_env *export, int flag)
+{
+    t_env   *tmp;
+    int     value_start;
+    t_env   *new_node;
+    char    *is_equal;
+    char    *temp_value;
+    char    *arg;
+    int     i = 1;
+	int		repeated;
+
+    if (!export || !cmd || !cmd->args || !cmd->args[1])
+    {
+        if (flag == 1)
+            ft_export_lonely(export);
+        return(1);
+    }
+
+    while (cmd->args[i])
+    {
+        arg = cmd->args[i];
+        tmp = export;
+        value_start = find_key(arg);
+        is_equal = arg;
+		repeated = 0;
+
+        while (tmp)
+        {
+            if (keycmp(tmp->key, arg) == 0)
+            {
+                if (!(arg[value_start - 1] != '='))
+                    temp_value = ft_strdup(arg + value_start);
+                else
+				{
+					i++;
+					repeated = 1;
+					break; 
+				}
+                free(tmp->value);
+                tmp->value = temp_value;
+                break;
+            }
+            tmp = tmp->next;
+        }
+		if (repeated)
+			continue;
+        if (!tmp)
+        {
+            new_node = malloc(sizeof(t_env));
+            if (!new_node)
+                return(0);
+            temp_value = ft_strdup(arg + value_start);
+            if (flag == 0 && is_equal[value_start - 1] != '=')
+            {
+                free(temp_value);
+                free(new_node);
+                i++;
+                continue;
+            }
+            if (is_equal[value_start - 1] == '=' && temp_value[0] == '\0')
+            {
+                free(temp_value);
+                temp_value = ft_strdup("");
+            }
+            else if (is_equal[value_start - 1] != '=')
+            {
+                free(temp_value);
+                temp_value = NULL;
+            }
+
+            new_node->key = export_key(arg, value_start - 1);
+            if (!new_node->key)
+            {
+                err_out("minishell: ", "export: `", arg, "': not a valid identifier");
+                free(new_node);
+                free(temp_value);
+                i++;
+                continue;
+            }
+
+            new_node->value = temp_value;
+            new_node->next = NULL;
+
+            tmp = export;
+            while (tmp->next)
+                tmp = tmp->next;
+            tmp->next = new_node;
+        }
+        i++;
+    }
+    return (1);
 }
