@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/07 18:07:09 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:51:02 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	minishell_loop(t_env *env, t_env *export)
 	t_token		*token;
 	t_command	*command;
 	t_shell		*shell;
-	int	exit_status;
+	int			exit_status;
 
 	exit_status = 0;
 	command = NULL;

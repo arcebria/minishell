@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 18:15:23 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 17:17:07 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 20:33:05 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*find_env(char *token_str, t_env *env)
 {
 	while (env)
 	{
-		if (!strcmp(token_str, env->key))
+		if (!ft_strcmp(token_str, env->key))
 			return (ft_strdup(env->value));
 		env = env->next;
 	}

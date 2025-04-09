@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:31:39 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 17:22:03 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:56:32 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	handle_word(t_token **token, char *input, int *i,
+/*void	handle_word(t_token **token, char *input, int *i,
 			t_env *env, int exit_status)
 {
 	if (extract_word(token, input, i) == 1)
 		ft_expansor(*token, env, exit_status);
-}
+}*/
 
 int	handle_quotes(t_token **token, char *input, int *i)
 {

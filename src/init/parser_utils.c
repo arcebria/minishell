@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 15:47:25 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 16:39:05 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 20:10:07 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+t_command	*init_command(void)
+{
+	t_command	*cmd;
+
+	cmd = malloc(sizeof(t_command));
+	if (!cmd)
+		return (NULL);
+	cmd->args = NULL;
+	cmd->env_array = NULL;
+	cmd->path = NULL;
+	cmd->redirs = NULL;
+	cmd->next = NULL;
+	return (cmd);
+}
 
 static t_redirection	*create_redirection(char **tokens, int *i)
 {

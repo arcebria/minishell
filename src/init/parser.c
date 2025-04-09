@@ -6,26 +6,11 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 18:57:57 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/08 16:19:58 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 20:19:09 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-t_command	*init_command(void)
-{
-	t_command	*cmd;
-
-	cmd = malloc(sizeof(t_command));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->env_array = NULL;
-	cmd->path = NULL;
-	cmd->redirs = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
 
 char	**token_to_array(t_token *token)
 {
@@ -106,19 +91,15 @@ t_command	*parse_simple_cmd(t_token *token, char **tokens, int *i)
 	return (cmd);
 }
 
-t_command	*parse_pipeline(t_token	*token)
+t_command	*build_cmds(char **tokens, t_token *token)
 {
 	t_command	*new_cmd;
 	t_command	*head;
 	t_command	*current;
-	char		**tokens;
 	int			i;
 
-	tokens = token_to_array(token);
 	head = NULL;
 	current = NULL;
-	if (!tokens)
-		return (NULL);
 	i = 0;
 	while (tokens[i])
 	{
@@ -133,6 +114,18 @@ t_command	*parse_pipeline(t_token	*token)
 		if (tokens[i] && !ft_strcmp(tokens[i], "|"))
 			i++;
 	}
+	return (head);
+}
+
+t_command	*parse_pipeline(t_token	*token)
+{
+	t_command	*head;
+	char		**tokens;
+
+	tokens = token_to_array(token);
+	if (!tokens)
+		return (NULL);
+	head = build_cmds(tokens, token);
 	ft_free_array(tokens);
 	return (head);
 }

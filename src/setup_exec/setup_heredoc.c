@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:29:10 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 16:38:24 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:49:04 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	open_heredoc(t_redirection *redir, t_shell *shell,
 	char	*line;
 	char	*delimiter;
 
-	shell->here_doc = 1;
 	delimiter = redir->file;
 	redir->hd_filename = get_hd_filename(shell);
 	tmp_fd = open(redir->hd_filename, O_CREAT | O_WRONLY | O_TRUNC, 0664);
@@ -52,6 +51,8 @@ void	open_heredoc(t_redirection *redir, t_shell *shell,
 		ft_putstr_fd("\n", tmp_fd);
 		free(line);
 	}
+	if (line)
+		free(line);
 	close(tmp_fd);
 	redir->fd_in = open(redir->hd_filename, O_RDONLY);
 	if (redir->fd_in == -1)

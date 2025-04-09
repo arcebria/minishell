@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/08 17:22:38 by aguinea          ###   ########.fr       */
+/*   Updated: 2025/04/08 20:02:43 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,11 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 		else if (handle_quotes(&token, input, &i))
 			return (free_tokens(&token), NULL);
 		else
-			handle_word(&token, input, &i, env, exit_status);
+		//handle_word(&token, input, &i, env, exit_status);
+		{
+			if (extract_word(&token, input, &i) == 1)
+				ft_expansor(token, env, exit_status);
+		}
 	}
 	return (token);
 }
