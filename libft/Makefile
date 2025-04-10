@@ -22,9 +22,11 @@ SRCS =  ft_isascii.c \
 	ft_strlen.c \
 	ft_substr.c \
 	ft_calloc.c \
+	ft_realloc.c \
 	ft_itoa.c \
 	ft_putchar_fd.c \
 	ft_strdup.c \
+	ft_strndup.c \
 	ft_strmapi.c \
 	ft_tolower.c \
 	ft_isalnum.c \
