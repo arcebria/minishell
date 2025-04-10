@@ -10,49 +10,81 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../inc/minishell_bonus.h"
+#include <dirent.h>
+#include <stdlib.h>
 
-static void	print_token_type(t_token_type type)
+void		ft_free_array(char **arr)
 {
-	switch (type)
+	int		i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
+char   **get_dir_elements(void)
+{
+	DIR							*dir;
+	struct dirent		*entry;
+	char						**files;
+	int							count;
+
+	files = NULL;
+	dir = opendir(".");
+	if (!dir)
+		return (perror("opendir"), NULL);
+	count = 0;
+	while ((entry = readdir(dir)) != NULL)
 	{
-		case WORD:
-			printf("token->type: WORD\n");
-			break;
-		case PIPE:
-			printf("token->type: PIPE\n");
-			break;
-		case REDIR_IN:
-			printf("token->type: REDIR_IN\n");
-			break;
-		case REDIR_OUT:
-			printf("token->type: REDIR_OUT\n");
-			break;
-		case HEREDOC:
-			printf("token->type: HEREDOC\n");
-			break;
-		case APPEND:
-			printf("token->type: APPEND\n");
-			break;
-		default:
-			printf("token->type: UNKNOWN\n");
-			break;
+		if (entry->d_name[0] != '.')
+		{
+			files = ft_realloc(files, count * sizeof(char *), (count + 1) * sizeof(char *));
+			files[count] = ft_strdup(entry->d_name);
+			count++;	
+		}
 	}
+	closedir(dir);
+	files = ft_realloc(files, count * sizeof(char *), (count + 1) * sizeof(char *));
+	files[count] = NULL;
+	return (files);
 }
 
-static void	print_token(t_token *token)
+char		*manage_wildcard(char *input)
 {
-	if (!token)
-		return;
-	printf("Value: %s\n", token->value);
-	print_token_type(token->type);
-}
+	int			i;
+	int			j;
+	char		*new_input;
+	char		*pattern;
+	char		*expanded;
 
-char     *expand_wildcard_input(t_token **token, char *input, int i)
-{
-    printf("input[%d] = %s\n", i, input);
-    printf("toke->value: %s\n", (*token)->value);
-	print_token_type((*token)->type);
-
-    return (token);
+	i = 0;
+	new_input = ft_strdup(input);
+	while (input[i])
+	{
+		if (input[i] == '\'') {
+			while (input[++i] != '\'')
+				;
+		}
+		if (input[i] == '"') {
+			while (input[++i] != '"')
+				;
+		}
+		if (input[i] == '*')
+		{ // Encontrar los límites del patrón
+			j = i;
+			while (input[j] > 0 && input[j - 1] != ' ')
+				j--;
+			while (input[i] && input[i + 1] != ' ')
+				i++;
+			pattern = ft_strndup(&new_input[j], i - j);
+			expanded = expand_wildcard(j, i, pattern);
+			if (expanded)
+				new_input = fuse_results(new_input, j, i, expanded, &i);
+		}
+		else
+			i++;
+	}
+	return (new_input);
 }
