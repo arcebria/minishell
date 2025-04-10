@@ -17,6 +17,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <dirent.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -83,10 +84,16 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+//		Wildcard
+void		ft_free_array(char **arr);
+char		**get_dir_elements(void);
+char 		*fuse_results(char *new_input, int start, int end, char *expanded, int *new_index);
+char    *expand_wildcard(int start, int end, char *pattern);
+char		*manage_wildcard(char *input);
+
 //tokenizer, syntax check and parsing
 
 t_token		*tokenizer(char *input);
-char		*expand_wildcard_input(t_token **token, char *input, int i);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_env		*init_env(char **env);
