@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/08 20:10:54 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/10 21:08:28 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_command	*init_command(void);
 t_env		*init_env(char **env);
-void		add_redir(t_command *cmd, char **tokens, int *i);
 void		handle_word(t_token **token, char *input, int *i, t_env *env, int exit_status);
 int			handle_quotes(t_token **token, char *input, int *i);
 int			handle_operator_token(t_token **token, char *input, int *i);
