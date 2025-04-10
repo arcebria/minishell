@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 18:15:23 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 20:33:05 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/10 23:30:21 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	print_exit_status(t_token *token, int exit_status, int i)
 	char	*temp;
 	char	*new_value;
 
-	before = strndup(token->value, i);
+	before = ft_strndup(token->value, i);
 	after = ft_strdup(token->value + i + 2);
 	status_str = ft_itoa(exit_status);
 	temp = ft_strjoin(before, status_str);
@@ -63,10 +63,10 @@ static char	*ft_aux_expansor(int j, t_env *env, int i, t_token *tmp)
 	char	*expansion;
 	char	*new_value;
 
-	before = strndup(tmp->value, i);
+	before = ft_strndup(tmp->value, i);
 	while (tmp->value[j] && (ft_isalnum(tmp->value[j]) || tmp->value[j] == '_'))
 		j++;
-	var_name = strndup(tmp->value + i + 1, j - (i + 1));
+	var_name = ft_strndup(tmp->value + i + 1, j - (i + 1));
 	after = ft_strdup(tmp->value + j);
 	expansion = find_env(var_name, env);
 	new_value = join_expanded_parts(before, expansion, after);
