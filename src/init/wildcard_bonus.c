@@ -14,7 +14,7 @@
 #include <dirent.h>
 #include <stdlib.h>
 
-void		ft_free_array(char **arr)
+void	ft_free_array(char **arr)
 {
 	int		i;
 
@@ -24,12 +24,12 @@ void		ft_free_array(char **arr)
 	free(arr);
 }
 
-char   **get_dir_elements(void)
+char	**get_dir_elements(void)
 {
-	DIR							*dir;
-	struct dirent		*entry;
-	char						**files;
-	int							count;
+	DIR				*dir;
+	struct dirent	*entry;
+	char			**files;
+	int				count;
 
 	files = NULL;
 	dir = opendir(".");
@@ -42,7 +42,7 @@ char   **get_dir_elements(void)
 		{
 			files = ft_realloc(files, count * sizeof(char *), (count + 1) * sizeof(char *));
 			files[count] = ft_strdup(entry->d_name);
-			count++;	
+			count++;
 		}
 	}
 	closedir(dir);
@@ -51,28 +51,31 @@ char   **get_dir_elements(void)
 	return (files);
 }
 
-char		*manage_wildcard(char *input)
+char	*manage_wildcard(char *input)
 {
-	int			i;
-	int			j;
-	char		*new_input;
-	char		*pattern;
-	char		*expanded;
+	int		i;
+	int		j;
+	char	*new_input;
+	char	*pattern;
+	char	*expanded;
 
 	i = 0;
 	new_input = ft_strdup(input);
 	while (input[i])
 	{
-		if (input[i] == '\'') {
+		if (input[i] == '\'')
+		{
 			while (input[++i] != '\'')
 				;
 		}
-		if (input[i] == '"') {
+		if (input[i] == '"')
+		{
 			while (input[++i] != '"')
 				;
 		}
 		if (input[i] == '*')
-		{ // Encontrar los límites del patrón
+		{
+			// Encontrar los límites del patrón
 			j = i;
 			while (input[j] > 0 && input[j - 1] != ' ')
 				j--;
