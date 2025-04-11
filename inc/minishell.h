@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/10 21:08:28 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/11 21:18:01 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_command
 
 //tokenizer, syntax check and parsing
 
-t_token		*tokenizer(char *input, t_env *env, int exit_status);
+t_token	*tokenizer(char *input, t_env *env, int exit_status);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_command	*init_command(void);
