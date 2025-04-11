@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/11 21:34:50 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:05:53 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	extract_word(t_token **token, char *input, int *i)
 	return (0);
 }
 
-t_token	*tokenizer(char *input, t_env *env, int exit_status)
+t_token		*tokenizer(char *input, t_env *env, int exit_status)
 {
 	t_token	*token;
 	int		i;

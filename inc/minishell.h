@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/11 21:18:01 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:08:31 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,9 @@ typedef struct s_command
 
 //tokenizer, syntax check and parsing
 
-t_token	*tokenizer(char *input, t_env *env, int exit_status);
+t_token		*tokenizer(char *input, t_env *env, int exit_status);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
-t_command	*init_command(void);
 t_env		*init_env(char **env);
 void		handle_word(t_token **token, char *input, int *i, t_env *env, int exit_status);
 int			handle_quotes(t_token **token, char *input, int *i);
@@ -147,13 +146,13 @@ void		append_to_list(t_env *export, t_env *new_node);
 
 //expansor && env
 
-t_env	*init_no_env(int flag);
-void	ft_env(t_env *env_lst);
-void	sigint_handler(int signum);
-void	setup_signals(int signal);
+t_env		*init_no_env(int flag);
+void		ft_env(t_env *env_lst);
+void		sigint_handler(int signum);
+void		setup_signals(int signal);
 t_command	*init_command(void);
-void	add_redir_utils(t_redirection *tmp,t_command *cmd, t_redirection *redir);
-void	ft_expansor(t_token *token, t_env *env, int exit_status);
+void		add_redir_utils(t_redirection *tmp,t_command *cmd, t_redirection *redir);
+void		ft_expansor(t_token *token, t_env *env, int exit_status);
 
 //manage fds
 
