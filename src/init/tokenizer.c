@@ -83,7 +83,7 @@ int	extract_word(t_token **token, char *input, int *i)
 	return (0);
 }
 
-t_token		*tokenizer(char *input, t_env *env, int exit_status)
+t_token	*tokenizer(char *input, t_env *env, int exit_status)
 {
 	t_token	*token;
 	int		i;
@@ -99,7 +99,6 @@ t_token		*tokenizer(char *input, t_env *env, int exit_status)
 		else if (handle_quotes(&token, input, &i))
 			return (free_tokens(&token), NULL);
 		else
-		//handle_word(&token, input, &i, env, exit_status);
 		{
 			if (extract_word(&token, input, &i) == 1)
 				ft_expansor(token, env, exit_status);
