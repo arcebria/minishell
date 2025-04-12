@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/03 15:29:58 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 14:23:08 by aguinea          ###   ########.fr       */
+/*   Created: 2025/04/12 19:55:56 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/12 19:55:58 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static void	ft_export_lonely(t_env *export)
 {

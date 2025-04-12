@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 13:52:25 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/10 18:26:34 by arcebria         ###   ########.fr       */
+/*   Created: 2025/04/12 19:54:34 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/12 19:55:19 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	ft_swap_lst(t_env *a, t_env *b)
 {

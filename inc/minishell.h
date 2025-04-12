@@ -6,13 +6,14 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/11 22:08:31 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:07:14 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <unistd.h>
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
@@ -20,6 +21,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "../libft/libft.h"
 # include "../libft/ft_printf.h"
 
@@ -111,7 +113,7 @@ t_shell		*init_shell(t_command *cmd);
 void		create_pipes(t_shell *shell);
 void		open_heredoc(t_redirection *redir, t_shell *shell,
 				int exit_status, t_env *env);
-char		*line_expanded(char *line, t_env *env, int exit_status);
+char		*check_to_expand(char *line, int *i, t_env *env, int exit_status);
 
 //exec
 

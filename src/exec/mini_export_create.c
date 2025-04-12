@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_create.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 14:10:29 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 14:22:17 by aguinea          ###   ########.fr       */
+/*   Created: 2025/04/12 19:54:23 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/12 19:55:01 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	should_skip_creation(char *arg, int value_start, int flag)
 {

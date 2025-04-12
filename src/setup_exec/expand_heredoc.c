@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:04:29 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/08 16:06:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:08:47 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,19 @@ char	*expand_status(int exit_status, int *i)
 	return (status);
 }
 
-char	*line_expanded(char *line, t_env *env, int exit_status)
+char	*check_to_expand(char *line, int *i, t_env *env, int exit_status)
 {
-	char	*result;
-	char	*tmp;
 	char	*addition;
-	int		i;
 
-	result = ft_strdup("");
-	i = 0;
-	while (line[i])
+	if (line[*i] == '$')
 	{
-		if (line[i] == '$')
-		{
-			i++;
-			if (line[i] == '?')
-				addition = expand_status(exit_status, &i);
-			else
-				addition = expand_variable(line, &i, env);
-		}
+		(*i)++;
+		if (line[*i] == '?')
+			addition = expand_status(exit_status, i);
 		else
-			addition = expand_text(line, &i);
-		tmp = ft_strjoin(result, addition);
-		free(result);
-		free(addition);
+			addition = expand_variable(line, i, env);
 	}
-	free(line);
-	return (tmp);
+	else
+		addition = expand_text(line, i);
+	return (addition);
 }

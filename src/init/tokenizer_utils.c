@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 16:31:39 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/11 21:35:02 by arcebria         ###   ########.fr       */
+/*   Created: 2025/04/12 20:02:00 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/12 20:02:02 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,28 @@ int	handle_quotes(t_token **token, char *input, int *i)
 }
 
 static int	handle_pipe(t_token **token, char *input, int *i)
- {
- 	char	op1[2];
- 
- 	if (input[*i] != '|' && input[*i] != '&')
- 		return (0);
- 	else
- 	{
- 		op1[0] = input[*i];
- 		op1[1] = '\0';
- 		if (input[*i] == '&')
- 			add_token(token, op1, AMPERSAND);
- 		else
- 			add_token(token, op1, PIPE);
- 		(*i)++;
- 	}
- 	return (1);
- }
+{
+	char	op1[2];
+
+	if (input[*i] != '|' && input[*i] != '&')
+		return (0);
+	else
+	{
+		op1[0] = input[*i];
+		op1[1] = '\0';
+		if (input[*i] == '&')
+			add_token(token, op1, AMPERSAND);
+		else
+			add_token(token, op1, PIPE);
+		(*i)++;
+	}
+	return (1);
+}
 
 int	handle_operator_token(t_token **token, char *input, int *i)
 {
 	if (handle_pipe(token, input, i))
- 		return (1);
+		return (1);
 	if (handle_redirection(token, input, i))
 		return (1);
 	return (0);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguinea <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/03 18:11:11 by aguinea           #+#    #+#             */
-/*   Updated: 2025/04/08 13:58:12 by aguinea          ###   ########.fr       */
+/*   Created: 2025/04/12 19:56:26 by arcebria          #+#    #+#             */
+/*   Updated: 2025/04/12 21:07:27 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static void	signal_handler(int signal)
 {
@@ -34,7 +34,7 @@ static void	child_handler(int signal)
 	write(1, "\n", 1);
 	if (signal == SIGQUIT)
 	{
-		write(1, "Quit: 3\n", 9);
+		write(1, "Quit: 3\n", 8);
 	}
 	return ;
 }
@@ -43,7 +43,6 @@ void	setup_signals(int i)
 {
 	struct sigaction	sa;
 
-	sigemptyset(&sa.sa_mask);
 	if (i)
 		sa.sa_handler = &signal_handler;
 	else

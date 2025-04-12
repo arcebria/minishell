@@ -6,11 +6,37 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:29:10 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/08 19:49:04 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:08:35 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+char	*line_expanded(char *line, t_env *env, int exit_status)
+{
+	char	*result;
+	char	*tmp;
+	char	*addition;
+	int		i;
+
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (line[i])
+	{
+		addition = check_to_expand(line, &i, env, exit_status);
+		if (!addition)
+			return (free(result), free(line), NULL);
+		tmp = ft_strjoin(result, addition);
+		free(result);
+		free(addition);
+		if (!tmp)
+			return (free(line), NULL);
+		result = tmp;
+	}
+	return (free(line), result);
+}
 
 void	free_and_out(t_redirection *redir)
 {
