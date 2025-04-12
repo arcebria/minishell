@@ -28,14 +28,14 @@
 
 typedef enum s_token_type
 {
-	WORD, // TEXTO
-	PIPE, // |
-	REDIR_IN, // <
-	REDIR_OUT, // >
-	HEREDOC, // <<
-	APPEND, // >>
-	AMPERSAND, // &
-	OR // ||
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	HEREDOC,
+	APPEND,
+	AMPERSAND,
+	OR
 }	t_token_type;
 
 typedef struct s_env
