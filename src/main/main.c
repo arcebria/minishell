@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/11 21:14:03 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:56:20 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_env	*env_lst;
 	t_env	*exprt_lst;
+	int		exit_status;
 
 	(void)ac;
 	(void)av;
@@ -29,6 +30,6 @@ int	main(int ac, char **av, char **env)
 		env_lst = init_env(env);
 		exprt_lst = init_env(env);
 	}
-	minishell_loop(env_lst, exprt_lst);
-	return (0);
+	exit_status = minishell_loop(env_lst, exprt_lst);
+	return (exit_status);
 }

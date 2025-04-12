@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/12 21:07:14 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:23:57 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_command
 
 //loop
 
-void		minishell_loop(t_env *env, t_env *export);
+int			minishell_loop(t_env *env, t_env *export);
 
 //tokenizer, syntax check and parsing
 
