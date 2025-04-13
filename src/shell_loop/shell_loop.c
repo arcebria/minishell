@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:18:39 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/13 18:09:16 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:53:27 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	process_token(char *input, t_env *env,
 	if (syntax_analize(*token) != 0)
 	{
 		free(input);
+		*exit_status = 2;
 		free_tokens(token);
 		return (1);
 	}
