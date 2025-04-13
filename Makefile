@@ -6,7 +6,7 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/04/13 14:29:53 by arcebria         ###   ########.fr        #
+#    Updated: 2025/04/13 18:19:04 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address
-DEPFLAGS	= -MMD -MF $(DEPDIR)/$*.d
+CFLAGS		= -Wall -Wextra -Werror -g # -fsanitize=address
+DEPFLAGS	= -MMD -MF $(DEPDIR)/$*.d # NO PASA LA NORMA
 INCLUDE		= -Iinc -Ilibft
 
 
@@ -85,7 +85,7 @@ dir				:
 $(LIBFT_A)		:
 				@make -C $(LIBFT_DIR) --silent
 
-$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(ALL_HEADERS) | dir
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c Makefile $(ALL_HEADERS) | dir
 				@$(CC) $(CFLAGS) $(DEPFLAGS) $(INCLUDE) -c $< -o $@
 
 clean			:

@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:18:39 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/13 14:28:03 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:09:16 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ int	process_token(char *input, t_env *env,
 	return (0);
 }
 
-void	execute_command(t_token *token, t_env *env,
-			t_env *export, int *exit_status)
+void	execute_command(t_token *token, t_env **env,
+			t_env **export, int *exit_status)
 {
 	t_command	*command;
 	t_shell		*shell;
 
 	command = parse_pipeline(token);
-	shell = setup_exec(command, *exit_status, env);
+	shell = setup_exec(command, *exit_status, *env);
 	*exit_status = exec_cmd(command, shell, env, export);
 	setup_signals(1);
 	free_tokens(&token);
@@ -105,7 +105,7 @@ int	minishell_loop(t_env *env, t_env *export)
 			continue ;
 		if (process_token(input, env, &exit_status, &token) != 0)
 			continue ;
-		execute_command(token, env, export, &exit_status);
+		execute_command(token, &env, &export, &exit_status);
 		free(input);
 	}
 	free_env(&env);

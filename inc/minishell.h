@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/12 22:23:57 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:08:00 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char		*check_to_expand(char *line, int *i, t_env *env, int exit_status);
 //exec
 
 void		get_cmd(t_command *cmd, t_env *env);
-int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env, t_env *exp);
+int			exec_cmd(t_command *cmd, t_shell *shell, t_env **env, t_env **exp);
 int			cmd_size(t_command *cmd);
 int			set_dup(t_redirection *redir, t_shell *shell);
 int			dup_first_child(t_redirection *redir, t_shell *shell);
