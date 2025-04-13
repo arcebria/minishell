@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:47:30 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/13 19:51:01 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:39:59 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,12 @@ int	check_file(t_token	*tokens)
 	{
 		if ((tmp->value[0] == '<' || tmp->value[0] == '>'))
 		{
-			if (!tmp->next || tmp->next->value[0] == '<' || tmp->next->value[0] == '>')
+			if (!tmp->next || tmp->next->value[0] == '<'
+				|| tmp->next->value[0] == '>')
 			{
 				ft_putstr_fd(S_E_REDIR, 2);
 				return (1);
 			}
-			/*if (tmp->next->value[0] == '<' || tmp->next->value[0] == '>')
-			{
-				ft_putstr_fd(S_E_REDIR, 2);
-				return (1);
-			}*/
 		}
 		tmp = tmp->next;
 	}

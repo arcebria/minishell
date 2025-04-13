@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:19 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/12 21:56:20 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:38:09 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int	main(int ac, char **av, char **env)
 	t_env	*exprt_lst;
 	int		exit_status;
 
-	(void)ac;
-	(void)av;
+	if (ac != 1)
+		return (err_out("minishell: ", av[1],
+				": No such file or directory", ""), 127);
 	if (!env | !*env)
 	{
 		env_lst = init_no_env(0);
