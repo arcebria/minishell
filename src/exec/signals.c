@@ -6,13 +6,22 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:56:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/14 20:28:29 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 22:34:43 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 volatile sig_atomic_t	g_sigint = 0;
+
+void	disable_signal_echo(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
 
 static void	signal_handler(int signal)
 {
