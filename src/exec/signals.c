@@ -6,11 +6,13 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:56:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/12 21:07:27 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:28:29 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+volatile sig_atomic_t	g_sigint = 0;
 
 static void	signal_handler(int signal)
 {
@@ -20,6 +22,7 @@ static void	signal_handler(int signal)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_sigint = 1;
 	}
 	else if (signal == SIGQUIT)
 	{

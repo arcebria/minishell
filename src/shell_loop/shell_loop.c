@@ -6,11 +6,13 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:18:39 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/13 19:53:27 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:55:19 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+extern volatile sig_atomic_t	g_sigint;
 
 void	update_exit_status(char *input, int *exit_status)
 {
@@ -100,6 +102,11 @@ int	minishell_loop(t_env *env, t_env *export)
 	while (1)
 	{
 		status = handle_input(&input, NULL, &env, &exit_status);
+		if (g_sigint == 1)
+		{
+			exit_status = 130;
+			g_sigint = 0;
+		}
 		if (status == 0)
 			break ;
 		if (status == 1)
@@ -109,8 +116,5 @@ int	minishell_loop(t_env *env, t_env *export)
 		execute_command(token, &env, &export, &exit_status);
 		free(input);
 	}
-	free_env(&env);
-	rl_clear_history();
-	free_env(&export);
-	return (exit_status);
+	return (free_env(&env), rl_clear_history(), free_env(&export), exit_status);
 }
