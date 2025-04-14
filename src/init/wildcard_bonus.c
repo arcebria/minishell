@@ -14,10 +14,6 @@
 #include <dirent.h>
 #include <stdlib.h>
 
-#include "../../inc/minishell_bonus.h"
-#include <dirent.h>
-#include <stdlib.h>
-
 void	ft_free_array(char **arr)
 {
 	int	i;
@@ -77,11 +73,11 @@ char	**get_dir_elements(void)
 
 char	*manage_wildcard(char *input)
 {
-	int			i;
-	int			j;
-	char		*new_input;
-	char		*pattern;
-	char		*expanded;
+	int		i;
+	int		j;
+	char	*new_input;
+	char	*pattern;
+	char	*expanded;
 
 	i = 0;
 	new_input = ft_strdup(input);
