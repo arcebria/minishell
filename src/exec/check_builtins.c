@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:18:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 17:01:10 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:54:04 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ void	check_child_builtin(t_command *cmd, t_env **env)
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		exit(mini_echo(cmd->args));
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
+	{
+		if (cmd->args[1])
+		{
+			mini_export(cmd, *env, 0);
+			return ;
+		}
 		exit(mini_env(*env));
+	}
 }
 
 int	check_parent_builtin(t_command *cmd, t_shell *shell,
@@ -37,10 +44,11 @@ int	check_parent_builtin(t_command *cmd, t_shell *shell,
 		shell->builtins_exit_status = mini_unset(cmd, env, exp, shell->n_cmds);
 		return (1);
 	}
-	/*if (ft_strcmp(cmd->args[0], "export") == 0)
+	if (ft_strcmp(cmd->args[0], "export") == 0)
 	{
-		shell->builtins_exit_status = mini_export(cmd, env, export);
+		shell->builtins_exit_status = mini_export(cmd, *exp, 1);
+		shell->builtins_exit_status = mini_export(cmd, *env, 0);
 		return (1);
-	}*/
+	}
 	return (0);
 }

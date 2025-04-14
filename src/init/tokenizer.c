@@ -6,22 +6,13 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/10 16:42:45 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:05:53 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token	*find_last(t_token *node)
-{
-	if (!node)
-		return (NULL);
-	while (node->next)
-		node = node->next;
-	return (node);
-}
-
-void	add_token(t_token **token, char *value, int type, int *i)
+void	add_token(t_token **token, char *value, t_token_type type)
 {
 	t_token	*new_node;
 	t_token	*last_node;
@@ -39,92 +30,51 @@ void	add_token(t_token **token, char *value, int type, int *i)
 		last_node = find_last(*token);
 		last_node->next = new_node;
 	}
-	if (new_node->type == PIPE || new_node->type == REDIR_IN
-		|| new_node->type == REDIR_OUT || new_node->type == APPEND
-		|| new_node->type == HEREDOC)
-		(*i)++;
-	if (new_node->type == APPEND || new_node->type == HEREDOC)
-		(*i)++;
-
 }
 
 int	extract_quoted_token(t_token **token, char *input, int *i)
 {
-	int		quote;
+	char	quote;
 	int		start;
-	int		len;
 	char	*word;
 
 	quote = input[*i];
-	start = *i + 1;
-	len = 0;
-	while (input[start + len] != quote && input[start + len])
-		len++;
-	if (!input[start + len])
+	start = ++(*i);
+	while (input[*i] && input[*i] != quote)
+		(*i)++;
+	if (!input[*i])
 	{
-		ft_putstr_fd("Open quotation marks\n", 2);
-		*i = start + len;
+		ft_putstr_fd("Error: Open quotation marks\n", 2);
 		return (1);
 	}
-	word = ft_substr(input, start, len);
-	add_token(token, word, WORD, i);
+	word = ft_substr(input, start, *i - start);
+	add_token(token, word, WORD);
 	free(word);
-	*i = start + len + 1;
+	(*i)++;
 	return (0);
 }
 
-void	extract_word(t_token **token, char *input, int *i)
-{
-	int		start;
-	int		len;
-	char	*word;
-
-	start = *i;
-	while (input[*i] && !ft_isspace(input[*i]) && !ft_isspecial(input[*i]))
-		(*i)++;
-	len = *i - start;
-	if (len > 0)
-	{
-		word = ft_substr(input, start, len);
-		add_token(token, word, WORD, i);
-		free (word);
-	}
-}
-
-t_token	*tokenizer(char *input)
+t_token	*tokenizer(char *input, t_env *env, int exit_status)
 {
 	t_token	*token;
 	int		i;
+	int		export_mode;
 
-	token = NULL;
 	i = 0;
+	token = NULL;
+	export_mode = 0;
 	while (input[i])
 	{
 		if (input[i] == ' ' || input[i] == '\t')
 			i++;
-		else if (input[i] == '|')
-			add_token(&token, "|", PIPE, &i);
-		else if (input[i] == '<')
-		{
-			if (input[i + 1] == '<')
-				add_token(&token, "<<", HEREDOC, &i);
-			else
-				add_token(&token, "<", REDIR_IN, &i);
-		}
-		else if (input[i] == '>')
-		{
-			if (input[i + 1] == '>')
-				add_token(&token, ">>", APPEND, &i);
-			else
-				add_token(&token, ">", REDIR_OUT, &i);
-		}
-		else if (input[i] == '\"' || input[i] == '\'')
-		{
-			if (extract_quoted_token(&token, input, &i))
-				return (free_tokens(&token), NULL);
-		}
+		else if (handle_operator_token(&token, input, &i))
+			continue ;
+		else if (handle_quotes(&token, input, &i))
+			return (free_tokens(&token), NULL);
 		else
-			extract_word(&token, input, &i);
+			handle_word(&token, input, &i, &export_mode);
 	}
+	if (!export_mode)
+		ft_expansor(token, env, exit_status);
 	return (token);
 }

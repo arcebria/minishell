@@ -6,13 +6,14 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 17:33:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:08:00 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <unistd.h>
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
@@ -20,6 +21,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "../libft/libft.h"
 # include "../libft/ft_printf.h"
 
@@ -28,12 +30,14 @@
 
 typedef enum s_token_type
 {
-	WORD, // TEXTO
-	PIPE, // |
-	REDIR_IN, // <
-	REDIR_OUT, // >
-	HEREDOC, // <<
-	APPEND, // >>
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	HEREDOC,
+	APPEND,
+	AMPERSAND,
+	OR
 }	t_token_type;
 
 typedef struct s_env
@@ -83,12 +87,25 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+//loop
+
+int			minishell_loop(t_env *env, t_env *export);
+
 //tokenizer, syntax check and parsing
 
-t_token		*tokenizer(char *input);
+t_token		*tokenizer(char *input, t_env *env, int exit_status);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_env		*init_env(char **env);
+int			handle_quotes(t_token **token, char *input, int *i);
+int			handle_operator_token(t_token **token, char *input, int *i);
+int			handle_redirection(t_token **token, char *input, int *i);
+int			handle_pipe_ampersand(t_token **token, char *input, int *i);
+t_token		*find_last(t_token *node);
+void		add_token(t_token **token, char *value, t_token_type type);
+int			extract_quoted_token(t_token **token, char *input, int *i);
+int			extract_word(t_token **token, char *input, int *i);
+void		handle_word(t_token **token, char *input, int *i, int *export_mode);
 
 //set_executor
 
@@ -97,12 +114,12 @@ t_shell		*init_shell(t_command *cmd);
 void		create_pipes(t_shell *shell);
 void		open_heredoc(t_redirection *redir, t_shell *shell,
 				int exit_status, t_env *env);
-char		*line_expanded(char *line, t_env *env, int exit_status);
+char		*check_to_expand(char *line, int *i, t_env *env, int exit_status);
 
 //exec
 
 void		get_cmd(t_command *cmd, t_env *env);
-int			exec_cmd(t_command *cmd, t_shell *shell, t_env *env);
+int			exec_cmd(t_command *cmd, t_shell *shell, t_env **env, t_env **exp);
 int			cmd_size(t_command *cmd);
 int			set_dup(t_redirection *redir, t_shell *shell);
 int			dup_first_child(t_redirection *redir, t_shell *shell);
@@ -123,6 +140,27 @@ int			mini_pwd(void);
 int			mini_echo(char **args);
 int			mini_env(t_env *env_lst);
 int			mini_unset(t_command *cmd, t_env **env, t_env **export, int n_cmds);
+int			mini_export(t_command *cmd, t_env *export, int flag);
+char		*export_key(char *s, int len);
+int			find_key(char *args);
+void		ft_bubble(t_env *export);
+void		ft_swap_lst(t_env *a, t_env *b);
+int			should_skip_creation(char *arg, int value_start, int flag);
+char		*get_export_value(char *arg, int value_start);
+t_env		*init_new_node(char *arg, int value_start, char *temp_value);
+void		append_to_list(t_env *export, t_env *new_node);
+
+//expansor && env
+
+t_env		*init_no_env(int flag);
+void		ft_env(t_env *env_lst);
+void		sigint_handler(int signum);
+void		setup_signals(int signal);
+t_command	*init_command(void);
+void		add_redir_utils(t_redirection *tmp,
+				t_command *cmd, t_redirection *redir);
+void		ft_expansor(t_token *token, t_env *env, int exit_status);
+int			is_in_single_quote(const char *str, int pos);
 
 //manage fds
 
@@ -133,7 +171,6 @@ void		close_pipes(t_shell *shell);
 
 void		free_tokens(t_token **token);
 void		free_commands(t_command	**cmds);
-void		free_tokens(t_token **token);
 void		free_env(t_env **env);
 
 //put errors in stderr
