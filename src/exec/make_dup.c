@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:26:56 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 15:26:58 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:16:20 by jcurtido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	dup_last_child(t_redirection *redir, t_shell *shell)
 		if ((tmp->type == REDIR_IN || tmp->type == HEREDOC)
 			&& set_input_redir(shell, tmp->fd_in, 1))
 			return (1);
-		else if ((tmp->type != REDIR_IN || tmp->type != HEREDOC)
+		else if ((tmp->type != REDIR_IN && tmp->type != HEREDOC)
 			&& shell->flag_in == 0)
 		{
 			if (set_input_redir(shell, shell->pipes[2 * shell->child - 2], 1))
@@ -107,7 +107,7 @@ int	dup_n_child(t_redirection *redir, t_shell *shell)
 		if ((tmp->type == REDIR_IN || tmp->type == HEREDOC)
 			&& set_input_redir(shell, tmp->fd_in, 1))
 			return (1);
-		else if ((tmp->type != REDIR_IN || tmp->type != HEREDOC)
+		else if ((tmp->type != REDIR_IN && tmp->type != HEREDOC)
 			&& shell->flag_in == 0
 			&& set_input_redir(shell, shell->pipes[2 * shell->child - 2], 0))
 			return (1);

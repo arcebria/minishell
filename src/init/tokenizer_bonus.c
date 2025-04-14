@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenizer_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 15:39:23 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:00:24 by jcurtido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	add_token(t_token **token, char *value, int type, int *i)
 		(*i)++;
 	if (new_node->type == APPEND || new_node->type == HEREDOC)
 		(*i)++;
-
 }
 
 int	extract_quoted_token(t_token **token, char *input, int *i)
@@ -102,7 +101,6 @@ t_token	*tokenizer(char *input)
 		input = manage_wildcard(input);
 	while (input[i])
 	{
-		// cambiar input[i] por input
 		if (input[i] == ' ' || input[i] == '\t')
 			i++;
 		else if (input[i] == '|')
@@ -129,5 +127,6 @@ t_token	*tokenizer(char *input)
 		else
 			extract_word(&token, input, &i);
 	}
+	free(input);
 	return (token);
 }

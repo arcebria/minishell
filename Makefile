@@ -52,6 +52,7 @@ SRCS_BONUS = \
 	src/init/tokenizer_bonus.c \
 	src/init/wildcard_bonus.c \
 	src/init/wildcard_utils_bonus.c \
+	src/init/wildcard_match_bonus.c \
 	src/init/parser.c \
 	src/init/syntax_analize.c \
 	src/init/parse_cmd.c \

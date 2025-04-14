@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/02 17:33:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:25:40 by jcurtido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,11 @@ typedef struct s_command
 //		Wildcard
 void		ft_free_array(char **arr);
 char		**get_dir_elements(void);
-char 		*fuse_results(char *new_input, int start, int end, char *expanded, int *new_index);
-char    *expand_wildcard(int start, int end, char *pattern);
+char		*fuse_results(char *new_input, int start, int *end, char *expanded);
+int		check_initial_segment(const char *p, const char *filename, int *seg_len);
+int		process_segment(const char **pos, const char **p, int seg_len, int n);
+int		handle_pattern_segments(const char *pattern, const char *filename, int n);
+char		*expand_wildcard(int start, int end, char *pattern);
 char		*manage_wildcard(char *input);
 
 //tokenizer, syntax check and parsing
