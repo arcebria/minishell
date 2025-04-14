@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/11 22:05:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:28:52 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 	t_token	*token;
 	int		i;
 	int		export_mode;
+	int		flag_quote;
 
 	i = 0;
+	flag_quote = 0;
 	token = NULL;
 	export_mode = 0;
 	while (input[i])
@@ -69,12 +71,12 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 			i++;
 		else if (handle_operator_token(&token, input, &i))
 			continue ;
-		else if (handle_quotes(&token, input, &i))
+		else if (handle_quotes(&token, input, &i, &flag_quote))
 			return (free_tokens(&token), NULL);
 		else
 			handle_word(&token, input, &i, &export_mode);
 	}
-	if (!export_mode)
+	if (!export_mode && !flag_quote)
 		ft_expansor(token, env, exit_status);
 	return (token);
 }

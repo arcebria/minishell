@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 20:01:08 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/12 20:01:11 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:35:52 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_expansor(t_token *token, t_env *env, int exit_status)
 		i = 0;
 		while (tmp->value && tmp->value[i])
 		{
-			if (tmp->value[i] == '$' && !is_in_single_quote(tmp->value, i))
+			if (tmp->value[i] == '$')
 			{
 				if (tmp->value[i + 1] == '?')
 					print_exit_status(tmp, exit_status, i);

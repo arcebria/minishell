@@ -6,7 +6,7 @@
 #    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
-#    Updated: 2025/04/13 19:33:39 by arcebria         ###   ########.fr        #
+#    Updated: 2025/04/14 18:35:20 by arcebria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ ALL_HEADERS	= $(HEADER) $(HEAD_LIBFT)
 SRCS 		= src/main/main.c src/shell_loop/shell_loop.c 							\
 			src/init/init_env.c src/init/tokenizer.c src/init/parser.c				\
        		src/init/syntax_analize.c src/init/parse_cmd.c							\
-			src/init/tokenizer_handle_word.c src/init/expansor_quotes.c				\
+			src/init/tokenizer_handle_word.c 										\
 			src/setup_exec/open_files.c src/setup_exec/setup_heredoc.c				\
 			src/setup_exec/expand_heredoc.c src/setup_exec/setup_shell.c			\
        		src/exec/exec_cmd.c src/exec/make_dup.c  src/exec/set_dup.c				\
