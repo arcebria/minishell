@@ -105,6 +105,7 @@ t_token		*find_last(t_token *node);
 void		add_token(t_token **token, char *value, t_token_type type);
 int			extract_quoted_token(t_token **token, char *input, int *i);
 int			extract_word(t_token **token, char *input, int *i);
+void		handle_word(t_token **token, char *input, int *i, int *export_mode);
 
 //set_executor
 
@@ -159,6 +160,7 @@ t_command	*init_command(void);
 void		add_redir_utils(t_redirection *tmp,
 				t_command *cmd, t_redirection *redir);
 void		ft_expansor(t_token *token, t_env *env, int exit_status);
+int			is_in_single_quote(const char *str, int pos);
 
 //manage fds
 

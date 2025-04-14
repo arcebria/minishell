@@ -12,6 +12,15 @@
 
 #include "../../inc/minishell.h"
 
+t_token	*find_last(t_token *node)
+{
+	if (!node)
+		return (NULL);
+	while (node->next)
+		node = node->next;
+	return (node);
+}
+
 int	handle_quotes(t_token **token, char *input, int *i)
 {
 	if (input[*i] == '"' || input[*i] == '\'')

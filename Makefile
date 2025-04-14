@@ -51,7 +51,8 @@ ALL_HEADERS	= $(HEADER) $(HEAD_LIBFT)
 
 SRCS 		= src/main/main.c src/shell_loop/shell_loop.c 							\
 			src/init/init_env.c src/init/tokenizer.c src/init/parser.c				\
-       		src/init/syntax_analize.c src/init/parse_cmd.c 							\
+       		src/init/syntax_analize.c src/init/parse_cmd.c							\
+			src/init/tokenizer_handle_word.c src/init/expansor_quotes.c				\
 			src/setup_exec/open_files.c src/setup_exec/setup_heredoc.c				\
 			src/setup_exec/expand_heredoc.c src/setup_exec/setup_shell.c			\
        		src/exec/exec_cmd.c src/exec/make_dup.c  src/exec/set_dup.c				\

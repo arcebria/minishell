@@ -82,25 +82,23 @@ static char	*ft_aux_expansor(int j, t_env *env, int i, t_token *tmp)
 void	ft_expansor(t_token *token, t_env *env, int exit_status)
 {
 	t_token	*tmp;
-	char	*token_str;
 	int		i;
 
 	tmp = token;
 	while (tmp)
 	{
-		token_str = tmp->value;
 		i = 0;
-		while (token_str[i])
+		while (tmp->value && tmp->value[i])
 		{
-			if (token_str[i] == '$')
+			if (tmp->value[i] == '$' && !is_in_single_quote(tmp->value, i))
 			{
-				if (token_str[i + 1] == '?')
-				{
+				if (tmp->value[i + 1] == '?')
 					print_exit_status(tmp, exit_status, i);
-				}
 				else
+				{
 					ft_aux_expansor(i + 1, env, i, tmp);
-				break ;
+					i = -1;
+				}
 			}
 			i++;
 		}

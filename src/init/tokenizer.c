@@ -12,15 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-t_token	*find_last(t_token *node)
-{
-	if (!node)
-		return (NULL);
-	while (node->next)
-		node = node->next;
-	return (node);
-}
-
 void	add_token(t_token **token, char *value, t_token_type type)
 {
 	t_token	*new_node;
@@ -63,33 +54,15 @@ int	extract_quoted_token(t_token **token, char *input, int *i)
 	return (0);
 }
 
-int	extract_word(t_token **token, char *input, int *i)
-{
-	int		start;
-	int		len;
-	char	*word;
-
-	start = *i;
-	while (input[*i] && !ft_isspace(input[*i]) && !ft_isspecial(input[*i]))
-		(*i)++;
-	len = *i - start;
-	if (len > 0)
-	{
-		word = ft_substr(input, start, len);
-		add_token(token, word, WORD);
-		free(word);
-		return (1);
-	}
-	return (0);
-}
-
 t_token	*tokenizer(char *input, t_env *env, int exit_status)
 {
 	t_token	*token;
 	int		i;
+	int		export_mode;
 
 	i = 0;
 	token = NULL;
+	export_mode = 0;
 	while (input[i])
 	{
 		if (input[i] == ' ' || input[i] == '\t')
@@ -99,10 +72,9 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 		else if (handle_quotes(&token, input, &i))
 			return (free_tokens(&token), NULL);
 		else
-		{
-			if (extract_word(&token, input, &i) == 1)
-				ft_expansor(token, env, exit_status);
-		}
+			handle_word(&token, input, &i, &export_mode);
 	}
+	if (!export_mode)
+		ft_expansor(token, env, exit_status);
 	return (token);
 }
