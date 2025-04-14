@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:18:39 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/14 19:55:19 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:39:23 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern volatile sig_atomic_t	g_sigint;
 
-void	update_exit_status(char *input, int *exit_status)
+/*void	update_exit_status(char *input, int *exit_status)
 {
 	int	i;
 
@@ -30,9 +30,55 @@ void	update_exit_status(char *input, int *exit_status)
 		return ;
 	else
 		*exit_status = ft_atoi(input + i);
+}*/
+
+int	handle_exit(char *input, t_command **cmd, t_env **env, int *status)
+{
+	char	**args;
+	int		code;
+
+	args = ft_split(input, ' ');
+	if (!args || !args[0])
+		return (ft_free_array(args), 2);
+	if (ft_strncmp(args[0], "exit", 5) != 0)
+		return (ft_free_array(args), 2);
+	write(1, "exit\n", 5);
+	if (!args[1])
+		return (ft_free_array(args), free(input), 0);
+	if (!ft_issigneddigit(args[1]))
+		return (write(2, "minishell: exit: numeric argument required\n", 43),
+			ft_free_array(args), free(input), *status = 2, 0);
+	if (args[2])
+		return (write(2, "minishell: exit: too many arguments\n", 36),
+			ft_free_array(args), free(input), *status = 1, 1);
+	code = ft_atoi(args[1]);
+	ft_free_array(args);
+	free_commands(cmd);
+	free_env(env);
+	free(input);
+	*status = code;
+	return (0);
 }
 
 int	handle_input(char **input, t_command **command, t_env **env, int *status)
+{
+	*input = readline("\033[1;34mminishell>\033[0m ");
+	if (!*input)
+		return (0);
+	if ((*input)[0])
+		add_history(*input);
+	else
+	{
+		free(*input);
+		return (1);
+	}
+	int	exit_code = handle_exit(*input, command, env, status);
+	if (exit_code != 2)
+		return (exit_code);
+	return (2);
+}
+
+/*int	handle_input(char **input, t_command **command, t_env **env, int *status)
 {
 	*input = readline("\033[1;34mminishell>\033[0m ");
 	if (!*input)
@@ -53,7 +99,7 @@ int	handle_input(char **input, t_command **command, t_env **env, int *status)
 		return (0);
 	}
 	return (2);
-}
+}*/
 
 int	process_token(char *input, t_env *env,
 			int *exit_status, t_token **token)

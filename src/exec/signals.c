@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:56:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/14 22:34:43 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:08:03 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ void	setup_signals(int i)
 	if (i)
 		sa.sa_handler = &signal_handler;
 	else
-	{
 		sa.sa_handler = &child_handler;
-	}
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);

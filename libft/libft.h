@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:39:44 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/10 23:27:52 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:30:39 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int		ft_isspecial(int c);
 int		ft_isspace(int c);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, char *src);
+int		ft_issigneddigit(char *str);
 
 #endif
