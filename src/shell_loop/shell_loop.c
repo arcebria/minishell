@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:18:39 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/15 12:56:53 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:35:16 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	handle_input(char **input, t_command **command, t_env **env, int *status)
 
 	*input = readline("\033[1;34mminishell>\033[0m ");
 	if (!*input)
+	{
+		ft_putendl_fd("exit", 1);
 		return (0);
+	}
 	if ((*input)[0])
 		add_history(*input);
 	else
