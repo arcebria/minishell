@@ -16,15 +16,17 @@
 
 void	ft_free_array(char **arr)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
+	i  = 0;
+    if (!arr)
+        return;
+    while (arr[i])
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
 }
 
 static char  	*manage_new_input(char *new_input, int j, int *i, char *expanded)

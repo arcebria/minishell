@@ -162,6 +162,7 @@ void		add_redir_utils(t_redirection *tmp,
 void		ft_expansor(t_token *token, t_env *env, int exit_status);
 
 //		Wildcard
+char		*ft_strchr_wildcard(const char *s, char c);
 void		ft_free_array(char **arr);
 char		**get_dir_elements(void);
 char		*fuse_results(char *new_input, int start, int *end, char *expanded);

@@ -14,7 +14,7 @@
 
 char *manage_wildcard(char *input);
 
-static char 	*ft_strchr_wildcard(const char *s, char c)
+char 	*ft_strchr_wildcard(const char *s, char c)
 {
 	int		i;
 
@@ -32,6 +32,8 @@ static char 	*ft_strchr_wildcard(const char *s, char c)
 		i++;
 	}
 	return ((char *)&s[i]);
+}
+
 void	add_token(t_token **token, char *value, t_token_type type)
 {
 	t_token	*new_node;

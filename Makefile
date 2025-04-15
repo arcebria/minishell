@@ -70,7 +70,7 @@ SRCS = \
 
 SRCS_BONUS = \
 	src/main/main.c \
-	src/shell_loop/shell_loop.c \
+	src/shell_loop/shell_loop_bonus.c \
 	src/init/init_env.c \
 	src/init/init_no_env.c \
 	src/init/tokenizer_bonus.c \
