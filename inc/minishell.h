@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 18:47:58 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/13 18:08:00 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 22:35:51 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <termios.h>
 # include "../libft/libft.h"
 # include "../libft/ft_printf.h"
 
@@ -107,6 +108,12 @@ int			extract_quoted_token(t_token **token, char *input, int *i);
 int			extract_word(t_token **token, char *input, int *i);
 void		handle_word(t_token **token, char *input, int *i, int *export_mode);
 
+//signals
+
+void		sigint_handler(int signum);
+void		setup_signals(int signal);
+void		disable_signal_echo(void);
+
 //set_executor
 
 t_shell		*setup_exec(t_command *cmd, int exit_status, t_env *env);
@@ -154,8 +161,6 @@ void		append_to_list(t_env *export, t_env *new_node);
 
 t_env		*init_no_env(int flag);
 void		ft_env(t_env *env_lst);
-void		sigint_handler(int signum);
-void		setup_signals(int signal);
 t_command	*init_command(void);
 void		add_redir_utils(t_redirection *tmp,
 				t_command *cmd, t_redirection *redir);

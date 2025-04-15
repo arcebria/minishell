@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/13 18:09:59 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/14 22:17:56 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	exe_parent(t_command *cmd, t_shell *shell)
 		{
 			if (shell->child == (shell->n_pipes) && WIFEXITED(status))
 				exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				exit_status = 128 + WTERMSIG(status);
 		}
 		shell->child--;
 	}
