@@ -21,10 +21,12 @@ t_token	*find_last(t_token *node)
 	return (node);
 }
 
-int	handle_quotes(t_token **token, char *input, int *i)
+int	handle_quotes(t_token **token, char *input, int *i, int *flag)
 {
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
+		if (input[*i] == '\'')
+			(*flag) = 1;
 		if (extract_quoted_token(token, input, i))
 			return (1);
 	}

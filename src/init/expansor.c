@@ -90,7 +90,7 @@ void	ft_expansor(t_token *token, t_env *env, int exit_status)
 		i = 0;
 		while (tmp->value && tmp->value[i])
 		{
-			if (tmp->value[i] == '$' && !is_in_single_quote(tmp->value, i))
+			if (tmp->value[i] == '$')
 			{
 				if (tmp->value[i + 1] == '?')
 					print_exit_status(tmp, exit_status, i);

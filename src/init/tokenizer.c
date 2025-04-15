@@ -59,8 +59,10 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 	t_token	*token;
 	int		i;
 	int		export_mode;
+	int		flag_quotes;
 
 	i = 0;
+	flag_quotes = 0;
 	token = NULL;
 	export_mode = 0;
 	while (input[i])
@@ -69,12 +71,12 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 			i++;
 		else if (handle_operator_token(&token, input, &i))
 			continue ;
-		else if (handle_quotes(&token, input, &i))
+		else if (handle_quotes(&token, input, &i, &flag_quotes))
 			return (free_tokens(&token), NULL);
 		else
 			handle_word(&token, input, &i, &export_mode);
 	}
-	if (!export_mode)
+	if (!export_mode && !flag_quotes)
 		ft_expansor(token, env, exit_status);
 	return (token);
 }

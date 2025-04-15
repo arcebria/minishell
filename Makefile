@@ -1,14 +1,26 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/13 20:05:41 by arcebria          #+#    #+#              #
+#    Updated: 2025/04/14 19:00:00 by arcebria         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 ################################################################################
 #                              CONFIGURATION                                   #
 ################################################################################
 
-NAME				= minishell
-NAME_BONUS	= minishell_bonus
+NAME			= minishell
+NAME_BONUS		= minishell_bonus
 
-CC					= cc
-CFLAGS			= -Wall -Wextra -Werror -g
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -g -fsanitize=address
 DEPFLAGS		= -MMD -MF $(DEPDIR)/$*.d
-LDFLAGS			= -lreadline # para trabajar desde casa
+LDFLAGS			= -lreadline
 
 INCLUDE			= -Iinc -Ilibft -I/usr/include
 
@@ -16,6 +28,7 @@ SRCDIR			= src
 OBJDIR			= obj
 DEPDIR			= deps
 LIBFT_DIR		= libft
+INCLUDE_DIR		= inc
 
 ################################################################################
 #                              SOURCE FILES                                    #
@@ -23,11 +36,17 @@ LIBFT_DIR		= libft
 
 SRCS = \
 	src/main/main.c \
+	src/shell_loop/shell_loop.c \
 	src/init/init_env.c \
+	src/init/init_no_env.c \
 	src/init/tokenizer.c \
 	src/init/parser.c \
-	src/init/syntax_analize.c \
+	src/init/parser_utils.c \
+	src/init/tokenizer_handle_word.c \
+	src/init/tokenizer_utils.c \
+	src/init/expansor.c \
 	src/init/parse_cmd.c \
+	src/init/syntax_analize.c \
 	src/setup_exec/open_files.c \
 	src/setup_exec/setup_heredoc.c \
 	src/setup_exec/expand_heredoc.c \
@@ -39,23 +58,32 @@ SRCS = \
 	src/exec/check_builtins.c \
 	src/exec/mini_cd.c \
 	src/exec/mini_env_echo_pwd.c \
-	src/exec/mini_unset_export.c \
+	src/exec/mini_unset.c \
+	src/exec/mini_export.c \
+	src/exec/mini_export_utils.c \
+	src/exec/mini_export_create.c \
 	src/exec/minicd_utils.c \
+	src/exec/signals.c \
 	src/clean_free/clean_fds.c \
 	src/clean_free/free_structs.c \
 	src/clean_free/put_errors.c
-	# src/others/signals.c
 
 SRCS_BONUS = \
-	src/main/main_bonus.c \
+	src/main/main.c \
+	src/shell_loop/shell_loop.c \
 	src/init/init_env.c \
+	src/init/init_no_env.c \
 	src/init/tokenizer_bonus.c \
-	src/init/wildcard_bonus.c \
-	src/init/wildcard_utils_bonus.c \
-	src/init/wildcard_match_bonus.c \
 	src/init/parser.c \
-	src/init/syntax_analize.c \
+	src/init/parser_utils.c \
+	src/init/tokenizer_handle_word.c \
+	src/init/tokenizer_utils.c \
+	src/init/expansor.c \
 	src/init/parse_cmd.c \
+	src/init/syntax_analize.c \
+	src/init/wildcard_bonus.c \
+	src/init/wildcard_match_bonus.c \
+	src/init/wildcard_utils_bonus.c \
 	src/setup_exec/open_files.c \
 	src/setup_exec/setup_heredoc.c \
 	src/setup_exec/expand_heredoc.c \
@@ -67,24 +95,27 @@ SRCS_BONUS = \
 	src/exec/check_builtins.c \
 	src/exec/mini_cd.c \
 	src/exec/mini_env_echo_pwd.c \
-	src/exec/mini_unset_export.c \
+	src/exec/mini_unset.c \
+	src/exec/mini_export.c \
+	src/exec/mini_export_utils.c \
+	src/exec/mini_export_create.c \
 	src/exec/minicd_utils.c \
+	src/exec/signals.c \
 	src/clean_free/clean_fds.c \
 	src/clean_free/free_structs.c \
 	src/clean_free/put_errors.c
-	# src/others/signals.c
 
 ################################################################################
 #                             OBJECTS & DEPS                                   #
 ################################################################################
 
-OBJS		= $(SRCS:%.c=$(OBJDIR)/%.o)
-OBJS_BONUS	= $(SRCS_BONUS:%.c=$(OBJDIR)/%.o)
-DEPS		= $(OBJS:%.o=$(DEPDIR)/%.d)
-DEPS_BONUS	= $(OBJS_BONUS:%.o=$(DEPDIR)/%.d)
+OBJS			= $(SRCS:%.c=$(OBJDIR)/%.o)
+OBJS_BONUS		= $(SRCS_BONUS:%.c=$(OBJDIR)/%.o)
+DEPS			= $(OBJS:%.o=$(DEPDIR)/%.d)
+DEPS_BONUS		= $(OBJS_BONUS:%.o=$(DEPDIR)/%.d)
 
-LIBFT_A		= $(LIBFT_DIR)/libft.a
-HEADERS		= inc/minishell.h libft/libft.h
+LIBFT_A			= $(LIBFT_DIR)/libft.a
+HEADERS			= inc/minishell.h libft/libft.h
 HEADERS_BONUS	= inc/minishell_bonus.h libft/libft.h
 
 ################################################################################

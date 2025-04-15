@@ -97,7 +97,7 @@ t_token		*tokenizer(char *input, t_env *env, int exit_status);
 int			syntax_analize(t_token *tokens);
 t_command	*parse_pipeline(t_token	*token);
 t_env		*init_env(char **env);
-int			handle_quotes(t_token **token, char *input, int *i);
+int			handle_quotes(t_token **token, char *input, int *i, int *flag);
 int			handle_operator_token(t_token **token, char *input, int *i);
 int			handle_redirection(t_token **token, char *input, int *i);
 int			handle_pipe_ampersand(t_token **token, char *input, int *i);
@@ -160,7 +160,6 @@ t_command	*init_command(void);
 void		add_redir_utils(t_redirection *tmp,
 				t_command *cmd, t_redirection *redir);
 void		ft_expansor(t_token *token, t_env *env, int exit_status);
-int			is_in_single_quote(const char *str, int pos);
 
 //manage fds
 
