@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 18:54:26 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/14 21:07:37 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:55:14 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,6 @@ int	extract_quoted_token(t_token **token, char *input, int *i)
 	return (0);
 }
 
-/*t_token	*tokenizer(char *input, t_env *env, int exit_status)
-{
-	t_token	*token;
-	int		i;
-	int		export_mode;
-	int		flag_quote;
-
-	i = 0;
-	flag_quote = 0;
-	token = NULL;
-	export_mode = 0;
-	while (input[i])
-	{
-		if (input[i] == ' ' || input[i] == '\t')
-			i++;
-		else if (handle_operator_token(&token, input, &i))
-			continue ;
-		else if (handle_quotes(&token, input, &i, &flag_quote))
-			return (free_tokens(&token), NULL);
-		else
-			handle_word(&token, input, &i, &export_mode);
-	}
-	if (!export_mode && !flag_quote)
-		ft_expansor(token, env, exit_status);
-	return (token);
-}*/
-
 int	is_export_mode(char *input)
 {
 	int	i;
@@ -119,10 +92,10 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 
 	i = 0;
 	token = NULL;
-	flag_quote = 0;
 	export_mode = is_export_mode(input);
 	while (input[i])
 	{
+		flag_quote = 0;
 		if (input[i] == ' ' || input[i] == '\t')
 			i++;
 		else if (handle_operator_token(&token, input, &i))
@@ -131,8 +104,8 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 			return (free_tokens(&token), NULL);
 		else
 			handle_word(&token, input, &i, &export_mode);
+		if (!export_mode && !flag_quote)
+			ft_expansor(token, env, exit_status);
 	}
-	if (!export_mode && !flag_quote)
-		ft_expansor(token, env, exit_status);
 	return (token);
 }
