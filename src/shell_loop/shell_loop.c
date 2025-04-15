@@ -6,31 +6,13 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 19:18:39 by arcebria          #+#    #+#             */
-/*   Updated: 2025/04/14 23:39:23 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:56:53 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 extern volatile sig_atomic_t	g_sigint;
-
-/*void	update_exit_status(char *input, int *exit_status)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (!isdigit(input[i]))
-			i++;
-		else
-			break ;
-	}
-	if (!input[i])
-		return ;
-	else
-		*exit_status = ft_atoi(input + i);
-}*/
 
 int	handle_exit(char *input, t_command **cmd, t_env **env, int *status)
 {
@@ -62,6 +44,8 @@ int	handle_exit(char *input, t_command **cmd, t_env **env, int *status)
 
 int	handle_input(char **input, t_command **command, t_env **env, int *status)
 {
+	int	exit_code;
+
 	*input = readline("\033[1;34mminishell>\033[0m ");
 	if (!*input)
 		return (0);
@@ -72,34 +56,11 @@ int	handle_input(char **input, t_command **command, t_env **env, int *status)
 		free(*input);
 		return (1);
 	}
-	int	exit_code = handle_exit(*input, command, env, status);
+	exit_code = handle_exit(*input, command, env, status);
 	if (exit_code != 2)
 		return (exit_code);
 	return (2);
 }
-
-/*int	handle_input(char **input, t_command **command, t_env **env, int *status)
-{
-	*input = readline("\033[1;34mminishell>\033[0m ");
-	if (!*input)
-		return (0);
-	if ((*input)[0])
-		add_history(*input);
-	else
-	{
-		free(*input);
-		return (1);
-	}
-	if (ft_strncmp(*input, "exit", ft_strlen("exit")) == 0)
-	{
-		update_exit_status(*input, status);
-		free_commands(command);
-		free_env(env);
-		free(*input);
-		return (0);
-	}
-	return (2);
-}*/
 
 int	process_token(char *input, t_env *env,
 			int *exit_status, t_token **token)
