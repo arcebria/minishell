@@ -16,6 +16,8 @@
 
 NAME		= minishell
 
+hola
+
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g  -fsanitize=address
 DEPFLAGS	= -MMD -MF $(DEPDIR)/$*.d # NO PASA LA NORMA

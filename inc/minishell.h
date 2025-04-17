@@ -181,6 +181,4 @@ void		free_env(t_env **env);
 
 void		err_out(char *str1, char *str2, char *str3, char *str4);
 
-# define hola hola;
-
 #endif
