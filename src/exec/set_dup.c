@@ -76,3 +76,4 @@ int	set_dup(t_redirection *redir, t_shell *shell)
 	}
 	return (0);
 }
+

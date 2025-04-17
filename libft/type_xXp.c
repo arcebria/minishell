@@ -49,3 +49,4 @@ void	ft_putptr(unsigned long n, int *count)
 		ft_putp(n, count);
 	}
 }
+

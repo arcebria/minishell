@@ -28,3 +28,4 @@ int	main(int a)
 	printf("%d\n", ft_isalnum(a));
 	return (0);
 }*/
+

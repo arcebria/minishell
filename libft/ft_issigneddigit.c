@@ -29,3 +29,4 @@ int	ft_issigneddigit(char *str)
 	}
 	return (1);
 }
+

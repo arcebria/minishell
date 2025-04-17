@@ -27,3 +27,4 @@ void	ft_free_int_array(int **array, int size)
 	}
 	free(array);
 }
+

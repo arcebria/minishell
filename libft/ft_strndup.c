@@ -29,3 +29,4 @@ char	*ft_strndup(const char *s, size_t n)
 	cpy[i] = '\0';
 	return (cpy);
 }
+

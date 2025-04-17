@@ -46,3 +46,4 @@ void	close_fds(t_command *cmd, t_shell *shell)
 	}
 	close_pipes(shell);
 }
+

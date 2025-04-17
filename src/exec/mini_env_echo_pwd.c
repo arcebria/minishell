@@ -70,3 +70,4 @@ int	mini_env(t_env *env_lst)
 	}
 	return (0);
 }
+

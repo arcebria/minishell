@@ -105,3 +105,4 @@ void	get_cmd(t_command *cmd, t_env *env)
 	else
 		cmd->path = get_path(cmd->env_array, cmd);
 }
+

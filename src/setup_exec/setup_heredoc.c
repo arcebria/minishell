@@ -84,3 +84,4 @@ void	open_heredoc(t_redirection *redir, t_shell *shell,
 	if (redir->fd_in == -1)
 		free_and_out(redir);
 }
+

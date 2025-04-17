@@ -84,3 +84,4 @@ char	*check_to_expand(char *line, int *i, t_env *env, int exit_status)
 		addition = expand_text(line, i);
 	return (addition);
 }
+

@@ -30,3 +30,4 @@ int	main(void)
 	printf("%d, %d\n", ft_isdigit(c), ft_isdigit(a));
 	return (0);
 }*/
+

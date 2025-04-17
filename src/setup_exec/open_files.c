@@ -68,3 +68,4 @@ t_shell	*setup_exec(t_command *cmd, int exit_status, t_env *env)
 	create_pipes(shell);
 	return (shell);
 }
+

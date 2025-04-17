@@ -106,3 +106,4 @@ void	handle_word(t_token **token, char *input, int *i, int *export_mode)
 	else
 		extract_word(token, input, i);
 }
+

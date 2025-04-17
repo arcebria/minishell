@@ -36,3 +36,4 @@ int	main(void)
 	printf("%d\n", ft_strncmp(s1, s2, 50));
 	return (0);
 }*/
+

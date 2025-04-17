@@ -122,3 +122,4 @@ int	dup_n_child(t_redirection *redir, t_shell *shell)
 	}
 	return (0);
 }
+

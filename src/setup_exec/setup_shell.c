@@ -48,3 +48,4 @@ t_shell	*init_shell(t_command *cmd)
 		return (NULL);
 	return (shell);
 }
+

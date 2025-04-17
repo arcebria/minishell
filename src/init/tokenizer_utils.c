@@ -83,3 +83,4 @@ int	handle_redirection(t_token **token, char *input, int *i)
 	}
 	return (1);
 }
+

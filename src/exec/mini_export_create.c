@@ -71,3 +71,4 @@ void	append_to_list(t_env *export, t_env *new_node)
 		tmp = tmp->next;
 	tmp->next = new_node;
 }
+

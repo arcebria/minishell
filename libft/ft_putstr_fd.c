@@ -24,3 +24,4 @@ int	main(void)
 
 	ft_putstr_fd(s, 1);
 }*/
+

@@ -52,3 +52,4 @@ int	main(void)
 	printf("%s\n", ft_strmapi(s, ft));
 	return (0);
 }*/
+

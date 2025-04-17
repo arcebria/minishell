@@ -47,3 +47,4 @@ int	search_heredoc(t_redirection *redir)
 	}
 	return (0);
 }
+

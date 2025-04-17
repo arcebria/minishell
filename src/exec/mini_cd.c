@@ -80,3 +80,4 @@ int	mini_cd(char **args, t_env *env_lst, int n_cmds)
 		exit_status = cd_path(args[1]);
 	return (update_env(env_lst, "OLDPWD", newpwd), free(newpwd), exit_status);
 }
+

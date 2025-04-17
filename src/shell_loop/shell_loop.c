@@ -128,3 +128,4 @@ int	minishell_loop(t_env *env, t_env *export)
 	}
 	return (free_env(&env), rl_clear_history(), free_env(&export), exit_status);
 }
+

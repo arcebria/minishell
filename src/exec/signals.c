@@ -64,3 +64,4 @@ void	setup_signals(int i)
 	sigaction(SIGQUIT, &sa, NULL);
 	sigaction(SIGTERM, &sa, NULL);
 }
+

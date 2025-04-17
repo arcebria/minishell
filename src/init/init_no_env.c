@@ -75,3 +75,4 @@ t_env	*init_no_env(int flag)
 	pwd->next = shlvl;
 	return (pwd);
 }
+

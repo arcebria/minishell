@@ -112,3 +112,4 @@ int	mini_export(t_command *cmd, t_env *export, int flag)
 	}
 	return (1);
 }
+

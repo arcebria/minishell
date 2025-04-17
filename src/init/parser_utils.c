@@ -26,3 +26,4 @@ t_command	*init_command(void)
 	cmd->next = NULL;
 	return (cmd);
 }
+

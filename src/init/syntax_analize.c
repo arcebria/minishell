@@ -86,3 +86,4 @@ int	syntax_analize(t_token *tokens)
 		return (1);
 	return (0);
 }
+

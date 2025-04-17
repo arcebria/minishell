@@ -93,3 +93,4 @@ void	free_commands(t_command	**cmds)
 	}
 	*cmds = NULL;
 }
+

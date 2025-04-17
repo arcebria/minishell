@@ -40,3 +40,4 @@ int main(void)
 	ft_lstdelone(head, del);
 	return 0;
 }*/
+

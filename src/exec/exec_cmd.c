@@ -97,3 +97,4 @@ int	exec_cmd(t_command *cmd, t_shell *shell, t_env **env, t_env **export)
 	}
 	return (exe_parent(cmd, shell));
 }
+

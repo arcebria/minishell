@@ -43,3 +43,4 @@ int	main(void)
 	printf("%s\n", ft_substr(s, 50, 5));
 	return (0);
 }*/
+

@@ -38,3 +38,4 @@ void	ft_putstr(char *s, int *count)
 		i++;
 	}
 }
+

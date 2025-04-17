@@ -40,3 +40,4 @@ int	main(void)
 	printf("%ld\n", ft_strlen(str));
 	return (0);
 }*/
+

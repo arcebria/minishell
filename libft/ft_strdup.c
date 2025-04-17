@@ -42,3 +42,4 @@ int	main(void)
 	printf("%s\n", ft_strdup(s));
 	return (0);
 }*/
+

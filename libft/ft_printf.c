@@ -152,3 +152,4 @@ int result7 = ft_printf("My function = %p \n null pointer = %p \n", ptr, ptr2);
 
 	ft_printf("%", result8);
 }*/
+

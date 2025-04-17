@@ -126,3 +126,4 @@ t_command	*parse_pipeline(t_token	*token)
 	}
 	return (head);
 }
+
