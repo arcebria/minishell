@@ -82,13 +82,18 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 	int		i;
 	int		export_mode;
 	int		flag_quotes;
-	
+	int		check_input;
+
+	check_input = 0;
 	i = 0;
 	flag_quotes = 0;
 	token = NULL;
 	export_mode = 0;
 	if (ft_strchr_wildcard(input, '*'))
+	{
 		input = manage_wildcard(input);
+		check_input = 1;
+	}
 	while (input[i])
 	{
 		if (input[i] == ' ' || input[i] == '\t')
@@ -100,6 +105,8 @@ t_token	*tokenizer(char *input, t_env *env, int exit_status)
 		else
 			handle_word(&token, input, &i, &export_mode);
 	}
+	if (check_input == 1)
+		free (input);
 	if (!export_mode && !flag_quotes)
 		ft_expansor(token, env, exit_status);
 	return (token);
